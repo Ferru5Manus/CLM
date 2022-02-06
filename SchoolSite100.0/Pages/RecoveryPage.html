@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    meta charset="utf-8" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>PasswordRecovery</title>>
+</head>
+<body style=" background-color:azure">
+    <div style="
+        background-color:ghostwhite;
+        color:black;
+        font-family:'Times New Roman';
+        font-size:15px;
+        text-align: center">
+
+        <br>
+        <div>
+            <span id="email">Введите адрес электронной почты, который вы использовали при регистрации</span>
+
+        </div>
+        <div>
+            <input id="emailInput" type="text"></input>
+        </div>
+
+        <button onclick="BackClick()">Back</button>
+        <button id="recovery" onclick="OnRecoveryClick()">Forgot login/password</button>
+        <script>
+            async function OnRecoveryClick() {
+                var email = document.getElementById("emailInput").value
+                var response = await fetch("/regRecCheck",
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ emailString: email })
+                    });
+                IsRegistered = JSON.parse(await response.text())
+                if (IsRegistered == false) {
+                    alert("There is no such user.")
+                }
+                else {
+                    await fetch("/prepareRecovery", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+
+                        },
+                        body: JSON.stringify({ emailString: email })
+                    });
+                    var outPut = document.getElementById("email")
+                    var recButton = document.getElementById("recovery")
+                    recButton.innerHTML=""
+                    outPut.innerHTML="Проверьте свою почту. На неё были отправлены инструкции по восстановлению пароля."
+                }
+            }
+
+        </script>
+        <script>
+            function BackClick() {
+                window.location = '/'
+            }
+
+        </script>
+</body>
+
+
+</html>

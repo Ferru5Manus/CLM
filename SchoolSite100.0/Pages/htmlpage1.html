@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>FormsAdministration</title>
+</head>
+<body style=" background-color:antiquewhite">
+    <div style="
+         background-color:ghostwhite;
+         color:black;
+         font-family:'Times New Roman';
+         font-size:15px;
+         text-align: center">
+        <span>Список пользователей:</span>
+        <button id="ShowButton" onclick="OnShowButtonClick()"> Show </button>
+        <div id="ShowDiv"></div>
+    </div>
+    
+</body>
+<script>
+    async function OnShowButtonClick() {
+        var response = await fetch("/getIds",
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        var response1 = await fetch("/getLogins",
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        var response2 = await fetch("/getEmails",
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        var response3 = await fetch("/getRoles",
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        var response4 = await fetch("/getForms",
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        var outputGroup = document.getElementById("ShowDiv");
+        outputGroup.innerHTML=""
+        var ids = JSON.parse(await response.text())
+        var logins = JSON.parse(await response1.text())
+        var emails = JSON.parse(await response2.text())
+        var roles = JSON.parse(await response3.text())
+        var forms = JSON.parse(await response4.text())
+        for (var i = 0; i < ids.length; i++) {
+            var newUser = document.createElement("div");
+            newUser.id = ids[i];
+            newUser.style = "display:inline-block;"
+            newUser.innerHTML = '<div class="b" style="display: inline-block;">' + '<div class="flex-row border border-secondary" id="log' + ids[i] + '">' + "<span>" + logins[i] + "</span>" + '<button id="ChangeButtonLog' + ids[i] + '" onclick="onChangeLogClick(' + ids[i] + ')"> ✏ </button>' + "</div>" + '<div class="flex-row border border-secondary" id="ema' + ids[i] + '">' + '<span>' + emails[i] + '</span>' + '<button id="ChangeButtonEma' + ids[i] + '" onclick="OnChangeEmaClick(' + ids[i] + ')"> ✏ </button>' + "</div>" + '<div class="flex-row border border-secondary" id="rol' + ids[i] + '">' + '<span>' + roles[i] + '</span>' + '<button id="ChangeButtonRol' + ids[i] + '" onclick="OnChangeRolClick(' + ids[i] + ')"> ✏ </button>' + "</div>" + '<div class="flex-row border border-secondary" id="form' + ids[i] + '">' + '<span>' + forms[i] + '</span>' + '<button id="ChangeButtonForm' + ids[i] + '" onclick="OnChangeFormClick(' + ids[i] + ')"> ✏ </button>' + "</div>" + '</div>'
+            
+            outputGroup.appendChild(newUser);
+        }
+
+    }
+    
+ 
+    
+    async function onChangeLogClick(id) {
+        var logDiv = document.getElementById("log" + id);
+        var changeLogInput = document.createElement("input");
+        changeLogInput.id = "changeLogInput" + id
+        var changeLogButton = document.createElement("button");
+        changeLogButton.setAttribute('onclick', 'ChangeLog('+id+')');
+        changeLogButton.textContent = "✏";
+        logDiv.appendChild(changeLogInput);
+        logDiv.appendChild(changeLogButton);
+        var mBut = document.getElementById('ChangeButtonLog' + id)
+        mBut.setAttribute('onclick','');
+    }
+    async function OnChangeEmaClick(id) {
+        var logDiv = document.getElementById("ema" + id);
+        var changeLogInput = document.createElement("input");
+        changeLogInput.id = "changeEmaInput" + id
+        var changeLogButton = document.createElement("button");
+        changeLogButton.setAttribute('onclick', 'ChangeEma(' + id + ')');
+        changeLogButton.textContent = "✏";
+        logDiv.appendChild(changeLogInput);
+        logDiv.appendChild(changeLogButton);
+        var mBut = document.getElementById('ChangeButtonEma' + id)
+        mBut.setAttribute('onclick','');
+    }
+    async function OnChangeRolClick(id) {
+        var logDiv = document.getElementById("rol" + id);
+        var changeLogInput = document.createElement("input");
+        changeLogInput.id = "changeRolInput" + id
+        var changeLogButton = document.createElement("button");
+        changeLogButton.setAttribute('onclick', 'ChangeRol(' + id + ')');
+        changeLogButton.textContent = "✏";
+        logDiv.appendChild(changeLogInput);
+        logDiv.appendChild(changeLogButton);
+        var mBut = document.getElementById('ChangeButtonRol' + id)
+        mBut.setAttribute('onclick','');
+    }
+    async function OnChangeFormClick(id) {
+        var logDiv = document.getElementById("form" + id);
+        var changeLogInput = document.createElement("input");
+        changeLogInput.id = "changeFormInput" + id
+        var changeLogButton = document.createElement("button");
+        changeLogButton.setAttribute('onclick', 'ChangeForm(' + id + ')');
+        changeLogButton.textContent = "✏";
+        logDiv.appendChild(changeLogInput);
+        logDiv.appendChild(changeLogButton);
+        var mBut = document.getElementById('ChangeButtonForm' + id)
+        mBut.setAttribute('onclick','');
+    }
+    async function ChangeLog(id) {
+        var login = document.getElementById("changeLogInput"+id).value
+        fetch("/changeLogin", {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+
+            },
+            body: JSON.stringify({ Id: id, loginString: login })
+        });
+       
+        var outputGroup = document.getElementById("ShowDiv");
+        outputGroup.innerHTML = ""        
+    }
+    async function ChangeEma(id) {
+        var email = document.getElementById("changeEmaInput" + id).value
+        fetch("/changeEmail", {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+
+            },
+            body: JSON.stringify({ Id: id, emailString: email })
+        });
+      
+        var outputGroup = document.getElementById("ShowDiv");
+        outputGroup.innerHTML = ""
+    }
+    async function ChangeRol(id) {
+        var role = document.getElementById("changeRolInput" + id).value
+        fetch("/changeRole", {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+
+            },
+            body: JSON.stringify({ Id: id, roleString: role })
+        });
+       
+        var outputGroup = document.getElementById("ShowDiv");
+        outputGroup.innerHTML = ""
+    }
+    async function ChangeForm(id) {
+        var form = document.getElementById("changeFormInput" + id).value
+        fetch("/changeForm", {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+
+            },
+            body: JSON.stringify({ Id: id,formString: form })
+        });
+        
+        var outputGroup = document.getElementById("ShowDiv");
+        outputGroup.innerHTML = ""
+    }
+</script>
+</html>

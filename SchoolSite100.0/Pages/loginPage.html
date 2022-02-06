@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Login</title>
+</head>
+<body style=" background-color:azure">
+    <div style="
+    background-color:ghostwhite;
+    color:black;
+    font-family:'Times New Roman';
+    font-size:15px;
+    text-align: center">
+        Перед началом работы зарегистрируйтесь или войдите в свой аккаунт.
+        <br>
+        <div>
+            <span id="log">Введите логин</span>
+
+        </div>
+        <div>
+            <input id="loginInput" type="text"></input>
+        </div>
+        <div>
+            <span id="ps">Введите пароль</span>
+        </div>
+        <div>
+            <input id="passwordInput" type="password"></input>
+        </div>
+        <button onclick="BackClick()">Back</button>
+        <button id="lb" onclick="OnLoginClick()">Login</button>
+        <button id="recovery" onclick="OnRecoveryClick()">Forgot login/password</button>
+
+    </div>
+    <script>
+        var btn = document.getElementById("lb");
+        btn.addEventListener("click", OnLoginClick);
+        async function OnLoginClick() {
+            var login = document.getElementById("loginInput").value
+            var password = document.getElementById("passwordInput").value
+            if (login == "") {
+                alert("Login input must be filled!");
+            }
+            else if (password == "") {
+                alert("Password input must be filled!");
+            }
+            var response = await fetch("/regCheck",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ emailString: null, loginString: login, passwordString: password })
+                });
+            IsRegistered = JSON.parse(await response.text())
+            if (IsRegistered == false) {
+                alert("There is no such user.")
+            }
+            else {
+                await fetch("/login", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+
+                    },
+                    body: JSON.stringify({ loginString: login, passwordString: password })
+                });
+                window.location = '/mainPage'
+            }
+        }
+    </script>
+    <script>
+        function BackClick() {
+            window.location = '/'
+        }
+
+    </script>
+
+    <script>
+        
+        async function OnRecoveryClick() {
+                    
+                window.location = '/recoveryPage'
+           
+        }
+
+    </script>
+</body>
+
+</html>
