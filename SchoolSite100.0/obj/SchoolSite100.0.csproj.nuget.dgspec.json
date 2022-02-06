@@ -4,14 +4,14 @@
     "C:\\CLM\\CLM\\SchoolSite100.0\\SchoolSite100.0.csproj": {}
   },
   "projects": {
-    "C:\\CLM\\CLM\\SchoolSite100.0\\SchoolSite100.0.csproj": {
+    "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\CLM\\CLM\\SchoolSite100.0\\SchoolSite100.0.csproj",
-        "projectName": "SchoolSite100.0",
-        "projectPath": "C:\\CLM\\CLM\\SchoolSite100.0\\SchoolSite100.0.csproj",
+        "projectUniqueName": "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj",
+        "projectName": "SchoolDatabaseRepository",
+        "projectPath": "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj",
         "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "C:\\CLM\\CLM\\SchoolSite100.0\\obj\\",
+        "outputPath": "C:\\CLM\\CLM\\SchoolDatabaseRepository\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
@@ -43,6 +43,84 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.0.123, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.0.28, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\CLM\\CLM\\SchoolSite100.0\\SchoolSite100.0.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\CLM\\CLM\\SchoolSite100.0\\SchoolSite100.0.csproj",
+        "projectName": "SchoolSite100.0",
+        "projectPath": "C:\\CLM\\CLM\\SchoolSite100.0\\SchoolSite100.0.csproj",
+        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
+        "outputPath": "C:\\CLM\\CLM\\SchoolSite100.0\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj": {
+                "projectPath": "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.0.123, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

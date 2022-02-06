@@ -263,23 +263,18 @@ namespace SchoolSite100._0
 
 
                 }); 
-                endpoints.MapPost("/removeNew", async context =>
-                {
-                    var sm = app.ApplicationServices.GetService<NewsManager>();
-                    var query = await context.Request.ReadFromJsonAsync<NewTemplate>();
-                    sm.RemoveNew(query.Id);
-                });
+               
                 endpoints.MapPut("/changeTitle", async context =>
                 {
                     var sm = app.ApplicationServices.GetService<NewsManager>();
                     var query = await context.Request.ReadFromJsonAsync<NewTemplate>();
-                    sm.ChangeTitle(query.titleString, query.newTitle, query.Id);
+                    sm.ChangeTitle( query.newTitle, query.Id);
                 });
                 endpoints.MapPut("/changeNew", async context =>
                 {
                     var sm = app.ApplicationServices.GetService<NewsManager>();
                     var query = await context.Request.ReadFromJsonAsync<NewTemplate>();
-                    sm.ChangeText(query.newString, query.newNewString, query.Id);
+                    sm.ChangeText( query.newNewString, query.Id);
                 });
             });
         }

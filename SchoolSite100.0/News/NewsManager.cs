@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleWebApp.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,59 +9,51 @@ namespace SchoolSite100._0
     public class NewsManager
     {
         List<NewTemplate> news = new List<NewTemplate>();
+        NewsDatabaseRepository repository = new NewsDatabaseRepository();
         public void AddNews(string Title, string Text)
         {
+            repository.SaveNew(new NewsDto() { TitleString=Title,TextString=Text});
             
-            news.Add(new NewTemplate { Id = news.Count + 1, newTitle = Title, newString = Text }) ;
         }
 
         public List<string> GetNewsTit()
         {
 
-            List<string> s = new List<string>();
-            foreach (var item in news)
-            {
-                s.Add(item.newTitle);
-            }
+            List<string> s = repository.GetAllTitles();
+            
             return s;
         }
 
         public List<string> GetNewsText()
         {
 
-            List<string> s = new List<string>();
-            foreach (var item in news)
-            {
-                s.Add(item.newString);
-            }
+            List<string> s = repository.GetAllNewsText();
+            
             return s;
         }
 
         public List<string> GetNewsId()
         {
 
-            List<string> s = new List<string>();
-            foreach (var item in news)
-            {
-                s.Add(item.Id.ToString());
-            }
+            List<string> s = repository.GetAllIds();
+            
             return s;
         }
 
         public void RemoveNew(int id)
         {
-            news.Remove(news[id - 1]);
+            repository.RemoveNew(new NewsDto() { Id=id});
         }
-        public void ChangeTitle(string lastTitle,string newTitle,int id)
+        public void ChangeTitle(string newTitle,int id)
         {
-            news[id - 1].newTitle = newTitle;
+            repository.ChangeNewTitle(new NewsDto() { newTitleString = newTitle, Id=id});
             
 
         }
 
-        public void ChangeText(string lastNew, string newNew,int id)
+        public void ChangeText(string newText,int id)
         {
-            news[id - 1].newTitle = newNew;
+            repository.ChangeNewText(new NewsDto() {  newTextString=newText,Id=id});
         }
     }
 }

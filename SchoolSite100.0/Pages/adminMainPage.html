@@ -116,7 +116,7 @@
             for (var i = 0; i < titles.length; i++) {
                 var newNew = document.createElement("div");
                 newNew.id = ids[i];
-                newNew.innerHTML ='<div class="container-fluid" style="width:450px; background-color:lightgray; text-align:center;">'+ "<div><span>" + titles[i] + "</span>" + '<button class="btn btn-secondary" onclick="onChangeTitleButtonClick(\'' + titles[i] + '\',' + ids[i] + ')" style=" color: black">Change</button>' + "</div>" + "<div><span>" + news[i] + "</span>" + '<button class="btn btn-secondary" onclick="onChangeNewButtonClick(\'' + news[i] + '\',' + ids[i] + ')" style=" color: black">Change</button>' + "</div>"+"</div>" + '<button class="btn btn-secondary" onclick="onDeleteButtonClick(' + ids[i] + ')" style=" color: black">Delete</button>';
+                newNew.innerHTML = '<div class="container-fluid" style="width:450px; background-color:lightgray; text-align:center;">' + "<div><span>" + titles[i] + "</span>" + '<button class="btn btn-secondary" onclick="onChangeTitleButtonClick(' + ids[i] + ')" style=" color: black">Change</button>' + "</div>" + "<div><span>" + news[i] + "</span>" + '<button class="btn btn-secondary" onclick="onChangeNewButtonClick(' + ids[i] + ')" style=" color: black">Change</button>' + "</div>"+"</div>" + '<button class="btn btn-secondary" onclick="onDeleteButtonClick(' + ids[i] + ')" style=" color: black">Delete</button>';
                 var outputGroup = document.getElementById("output-group-content");
                 outputGroup.appendChild(newNew);
             }
@@ -132,6 +132,7 @@
         }
         async function onDeleteButtonClick(id) {
             var outputGroup = document.getElementById("output-group-content");
+            
             fetch("/removeNew", {
                 method: 'POST',
                 headers: {
@@ -143,19 +144,19 @@
             Clear();
         }
 
-        async function onChangeTitleButtonClick(s, i) {
+        async function onChangeTitleButtonClick(i) {
             var Changer = document.getElementById("Changegroup")
-            Changer.innerHTML = '<span class="input-group-text" id="input-group-text">Изменить название новости:</span><textarea id="changeTitleInput" class="form-control" aria-label="Добавить название новости:"></textarea><button class="btn btn-primary" id="btn-primary" onclick="ChangeTitle(\'' + s + '\',' + i + ')">Change' + '</button>'+'<button class="btn btn-primary" id="btn-primary" onclick="Clear2(\'Changegroup\')">Clear' + '</button>'
+            Changer.innerHTML = '<span class="input-group-text" id="input-group-text">Изменить название новости:</span><textarea id="changeTitleInput" class="form-control" aria-label="Добавить название новости:"></textarea><button class="btn btn-primary" id="btn-primary" onclick="ChangeTitle(' + i + ')">Change' + '</button>'+'<button class="btn btn-primary" id="btn-primary" onclick="Clear2(\'Changegroup\')">Clear' + '</button>'
 
 
         }
-        async function onChangeNewButtonClick(s, i) {
+        async function onChangeNewButtonClick(i) {
             var Changer = document.getElementById("Changegroup2")
-            Changer.innerHTML = '<span class="input-group-text" id="input-group-text">Изменить текст новости:</span><textarea id="changeNewInput" class="form-control" aria-label="Добавить название новости:"></textarea><button class="btn btn-primary" id="btn-primary" onclick="ChangeNew(\'' + s + '\',' + i + ')">Change' + '</button>'+'<button class="btn btn-primary" id="btn-primary" onclick="Clear2(\'Changegroup2\')">Clear' + '</button>'
+            Changer.innerHTML = '<span class="input-group-text" id="input-group-text">Изменить текст новости:</span><textarea id="changeNewInput" class="form-control" aria-label="Добавить название новости:"></textarea><button class="btn btn-primary" id="btn-primary" onclick="ChangeNew(' + i + ')">Change' + '</button>'+'<button class="btn btn-primary" id="btn-primary" onclick="Clear2(\'Changegroup2\')">Clear' + '</button>'
 
 
         }
-        async function ChangeTitle(s, i) {
+        async function ChangeTitle(i) {
             var title = document.getElementById("changeTitleInput").value
             fetch("/changeTitle", {
                 method: 'PUT',
@@ -163,13 +164,13 @@
                     'Content-Type': 'application/json'
 
                 },
-                body: JSON.stringify({ titleString: s, newTitle: title, Id: i })
+                body: JSON.stringify({ newTitle: title, Id: i })
             });
             Clear();
             var Changer = document.getElementById("Changegroup")
             Changer.innerHTML = ""
         }
-        async function ChangeNew(s, i) {
+        async function ChangeNew(i) {
             var news = document.getElementById("changeNewInput").value
             fetch("/changeNew", {
                 method: 'PUT',
@@ -177,7 +178,7 @@
                     'Content-Type': 'application/json'
 
                 },
-                body: JSON.stringify({ newString: s, newNewString: news, Id: i })
+                body: JSON.stringify({  newNewString: news, Id: i })
             });
             Clear();
             var Changer = document.getElementById("Changegroup2")
