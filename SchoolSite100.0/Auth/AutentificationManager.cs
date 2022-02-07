@@ -7,82 +7,111 @@ using System.Text;
 using System.Net.Mail;
 using System.Net;
 using System.IO;
+using SchoolDatabaseRepository;
 
 namespace SchoolSite100._0
 {
     public class AutentificationManager
     {
-        List<User> users = new List<User>();
-
-        
-
+        private AccountsDatabaseRepository AccountDto = new AccountsDatabaseRepository();
         public void Register(string login, string password, string email)
         {
-            if (IsRegistred(login, password,email) == false)
+            if (IsRegistred(login,password,email)==false)
             {
-                users.Add(new User { id = users.Count() + 1, login = login, email = email, password = EncryptPlainTextToCipherText(password), role = "Student", form = "unknown" });
+                AccountDto.AddAccount(new AccountsDto { login=login,password=EncryptPlainTextToCipherText(password),email=email,form="",role="User" }) ;
             }
         }
         public bool IsRegistred(string login, string password, string email)
         {
-            bool flag = false;
-            string s = EncryptPlainTextToCipherText(password);
-            foreach (var item in users)
+            if (AccountDto.GetUserByEmail(new AccountsDto { email = email }) != null)
             {
-                if (item.login == login && item.password == s && item.email==email)
+                if (AccountDto.GetPasswordByLogin(new AccountsDto {login=login})!=null)
                 {
-                    flag = true;
+                    if (AccountDto.GetPasswordByLogin(new AccountsDto { login = login }).Count() > 0)
+                    {
+                        if (AccountDto.GetPasswordByLogin(new AccountsDto { login = login })[0] == EncryptPlainTextToCipherText(password))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    
+                    
                 }
-
+                else
+                {
+                    return false;
+                }
+                
             }
-            return flag;
-
+            else
+            {
+                return false;
+            }
 
         }
         public bool IsRegistred(string login, string password)
         {
-            bool flag = false;
-            string s = EncryptPlainTextToCipherText(password);
-            foreach (var item in users)
+            if (AccountDto.GetUserByLogin(new AccountsDto { login = login }) != null )
             {
-                if (item.login == login && item.password == s)
+                if (AccountDto.GetPasswordByLogin(new AccountsDto { login = login }) != null)
                 {
-                    flag = true;
+                    if (AccountDto.GetPasswordByLogin(new AccountsDto { login = login }).Count() > 0)
+                    {
+                        if (AccountDto.GetPasswordByLogin(new AccountsDto { login = login })[0] == EncryptPlainTextToCipherText(password))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
                 }
-
+                else
+                {
+                    return false;
+                }
             }
-            return flag;
-
+            else
+            {
+                return false;
+            }
 
         }
 
         public bool IsExists(string email)
         {
-            bool flag = false;
-
-            foreach (var item in users)
+            if (AccountDto.GetUserByEmail(new AccountsDto {email=email}).Count>0)
             {
-                if (item.email == email)
-                {
-                    flag = true;
-                }
-
+                return true;
             }
-            return flag;
-
-
+            else
+            {
+                return false;
+            }
         }
         public bool IsAdmin(string login)
         {
-            foreach (var item in users)
+            if(AccountDto.GetRoleByLogin(new AccountsDto { login = login }) != null)
             {
-                if (item.login == login)
+                if (AccountDto.GetRoleByLogin(new AccountsDto { login = login })[0]=="Admin")
                 {
-                    if (item.role=="Admin")
-                    {
-                        return true;
-                    }
+                    return true;
                 }
+                return false;
             }
             return false;
         }
@@ -91,84 +120,63 @@ namespace SchoolSite100._0
         public List<string> GetUserIds()
         {
             List<string> i = new List<string>();
-            for (int z = 0; z < users.Count(); z++)
-            {
-                i.Add(users[z].id.ToString());
-            }
+            i = AccountDto.GetAllUsersIds();
             return i;
         }
         public List<string> GetUserLogins()
         {
             List<string> i = new List<string>();
-            for (int z = 0; z < users.Count(); z++)
-            {
-                i.Add(users[z].login.ToString());
-            }
+            i = AccountDto.GetUserLogins();
             return i;
         }
         public List<string> GetUserEmails()
         {
             List<string> i = new List<string>();
-            for (int z = 0; z < users.Count(); z++)
-            {
-                i.Add(users[z].email.ToString());
-            }
+            i = AccountDto.GetUserEmails();
             return i;
         }
         public List<string> GetUserRoles()
         {
             List<string> i = new List<string>();
-            for (int z = 0; z < users.Count(); z++)
-            {
-                i.Add(users[z].role.ToString());
-            }
+            i = AccountDto.GetUserRoles();
             return i;
         }
         public List<string> GetUserForms()
         {
             List<string> i = new List<string>();
-            for (int z = 0; z < users.Count(); z++)
-            {
-                i.Add(users[z].form.ToString());
-            }
+            i = AccountDto.GetUserForms();
             return i;
         }
 
         public void UpdateLogin(int id, string login)
         {
-            users[id - 1].login = login;
+            AccountDto.UpdateLogin(new AccountsDto { login = login, id = id });
         }
         public void UpdateEmail(int id, string email)
         {
-            users[id - 1].email = email;
+            AccountDto.UpdateEmail(new AccountsDto { email = email, id = id });
         }
         public void UpdateForm(int id, string form)
         {
-            users[id - 1].form = form;
+            AccountDto.UpdateForm(new AccountsDto { form=form, id = id });
         }
         public void UpdateRole(int id, string role)
         {
-            users[id - 1].role = role;
+            AccountDto.UpdateRole (new AccountsDto { role = role, id = id });
         }
         public void SendPassword(string email)
         {
             MailAddress from = new MailAddress("cmspassreq@gmail.com", "Lms");
-            string login = "";
-            string password = "";
-            foreach (var item in users)
-            {
-                if (item.email == email)
-                {
-                    login = item.login;
-                    password = DecryptCipherTextToPlainText(item.password);
-                }
-            }
+            string login = AccountDto.GetLoginByEmail(new AccountsDto { email = email })[0];
+            string password = DecryptCipherTextToPlainText(AccountDto.GetPasswordByEmail(new AccountsDto { email = email })[0]);
+            //REDO
+            
             // кому отправляем
             MailAddress to = new MailAddress(email);
             // создаем объект сообщения
             MailMessage m = new MailMessage(from, to);
             // тема письма
-            m.Subject = "Восстановление парля";
+            m.Subject = "Восстановление пароля";
             // текст письма
             m.Body = "<h2>Здравствуйте, недавно вы пытались восстановить данные своего пароля.</h2><span>Ваш логин: "+login+" Ваш пароль:"+password+"</span>";
 

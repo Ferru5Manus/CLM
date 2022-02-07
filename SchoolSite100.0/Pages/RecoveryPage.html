@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    meta charset="utf-8" />
+    <meta charset="utf-8" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <title>PasswordRecovery</title>>
+    <title>PasswordRecovery</title>
 </head>
 <body style=" background-color:azure">
     <div style="
@@ -40,7 +40,7 @@
                     alert("There is no such user.")
                 }
                 else {
-                    await fetch("/prepareRecovery", {
+                    response2 = await fetch("/prepareRecovery", {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -49,9 +49,14 @@
                         body: JSON.stringify({ emailString: email })
                     });
                     var outPut = document.getElementById("email")
-                    var recButton = document.getElementById("recovery")
-                    recButton.innerHTML=""
-                    outPut.innerHTML="Проверьте свою почту. На неё были отправлены инструкции по восстановлению пароля."
+
+                    var res = JSON.parse(await response2.text())
+                    if (res == "ok") {
+                        alert("Проверьте свою почту. На неё были отправлены инструкции по восстановлению пароля.")
+                    }
+                    else {
+                        alert("")
+                    }
                 }
             }
 

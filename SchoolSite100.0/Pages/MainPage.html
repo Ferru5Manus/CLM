@@ -92,16 +92,15 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-
-                        <a class="nav-link" aria-current="page" href="/mainPage">News</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/taskPage">Tasks</a>
                     </li>
                     <li class="nav-item" id="nav1">
 
                     </li>
                     <li class="nav-item" id="nav2">
+
+                    </li>
+                    <li class="nav-item" id="nav3">
 
                     </li>
                 </ul>
@@ -146,7 +145,7 @@
             var outputGroup = document.getElementById("output-group-content");
             outputGroup.appendChild(newNew);
         }
-        var response = await fetch("/getAcc",
+        var response = await fetch("/IsAdm",
             {
                 method: 'POST',
                 headers: {
@@ -154,12 +153,13 @@
                 }
             });
         var acc = JSON.parse(await response.text())
-        if (acc == "Admin") {
+        if (acc == true) {
             var nav1 = document.getElementById("nav1")
             var nav2 = document.getElementById("nav2")
+            var nav3 = document.getElementById("nav3")
             nav1.innerHTML = '<a class="nav-link" aria-current="page" href="/taskAdmPage">TaskAdministration</a>'
             nav2.innerHTML = '<a class="nav-link" aria-current="page" href="/adminMainPage">NewsAdministration</a>'
-
+            nav3.innerHTML = '<a class="nav-link" aria-current="page" href="/adminUsersPage">UsersAdministration</a>'
         }
     }
     async function Clear() {

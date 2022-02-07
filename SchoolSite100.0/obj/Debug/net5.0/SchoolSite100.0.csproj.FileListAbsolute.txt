@@ -62,4 +62,3 @@ C:\CLM\CLM\SchoolSite100.0\bin\Debug\net5.0\SchoolDatabaseRepository.runtimeconf
 C:\CLM\CLM\SchoolSite100.0\bin\Debug\net5.0\SchoolDatabaseRepository.exe
 C:\CLM\CLM\SchoolSite100.0\bin\Debug\net5.0\SchoolDatabaseRepository.dll
 C:\CLM\CLM\SchoolSite100.0\bin\Debug\net5.0\SchoolDatabaseRepository.pdb
-C:\CLM\CLM\SchoolSite100.0\obj\Debug\net5.0\SchoolSite100.0.csproj.CopyComplete

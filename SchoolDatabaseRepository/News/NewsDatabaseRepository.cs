@@ -49,7 +49,7 @@ namespace SimpleWebApp.Repository
 
         public List<string> GetAllIds()
         {
-             List<string> lst = new List<string>();
+            List<string> lst = new List<string>();
             using (MySqlConnection cnx = new MySqlConnection("Server = 127.0.0.1; Database = clm; Uid = root; Pwd = root;"))
             {
                 var result = cnx.Query<NewsDto>("SELECT * FROM news").ToList();

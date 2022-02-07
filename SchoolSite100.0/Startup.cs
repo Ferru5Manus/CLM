@@ -72,7 +72,7 @@ namespace SchoolSite100._0
                 {
                     var am = app.ApplicationServices.GetService<AutentificationManager>();
                     var query = await context.Request.ReadFromJsonAsync<RegistrationContent>();
-                    am.Register(query.loginString,query.passwordString,query.emailString) ;
+                   am.Register(query.loginString,query.passwordString,query.emailString) ;
                     await context.Response.WriteAsJsonAsync(am.IsRegistred(query.loginString, query.passwordString, query.emailString));
                 });
                 endpoints.MapPost("/login", async context => {
@@ -120,6 +120,13 @@ namespace SchoolSite100._0
                     string page = File.ReadAllText("Pages/MainPage.html");
 
                     await context.Response.WriteAsync(page);
+                });
+                endpoints.MapPost("/IsAdm", async context =>
+                {
+                    var sm = app.ApplicationServices.GetService<AutentificationManager>();
+                    var login = context.User.Identity.Name;
+
+                    await context.Response.WriteAsJsonAsync(sm.IsAdmin(login));
                 });
                 endpoints.MapGet("/loginPage", async context =>
                 {
@@ -255,14 +262,23 @@ namespace SchoolSite100._0
                 });
                 endpoints.MapGet("/adminMainPage", async context =>
                 {
+                    string page2 = File.ReadAllText("Pages/MainPage.html");
                     string page = File.ReadAllText("Pages/adminMainPage.html");
                     var login = context.User.Identity.Name;
                     var lm = app.ApplicationServices.GetService<AutentificationManager>();
 
-                    await context.Response.WriteAsync(page);
+                    
+                    if (lm.IsAdmin(login))
+                    {
+                        await context.Response.WriteAsync(page);
+                    }
+                    else
+                    {
+                        await context.Response.WriteAsync(page2);
+                    }
 
 
-                }); 
+                }).RequireAuthorization(); 
                
                 endpoints.MapPut("/changeTitle", async context =>
                 {

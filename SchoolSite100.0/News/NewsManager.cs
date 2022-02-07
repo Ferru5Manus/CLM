@@ -8,7 +8,7 @@ namespace SchoolSite100._0
 {
     public class NewsManager
     {
-        List<NewTemplate> news = new List<NewTemplate>();
+       
         NewsDatabaseRepository repository = new NewsDatabaseRepository();
         public void AddNews(string Title, string Text)
         {
