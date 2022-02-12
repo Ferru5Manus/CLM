@@ -33,6 +33,7 @@ namespace SchoolSite100._0
             });
             services.AddSingleton<AutentificationManager>();
             services.AddSingleton<NewsManager>();
+            services.AddSingleton<FormsManager>();
             services
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => options.LoginPath = new PathString("/auth"));
@@ -166,7 +167,7 @@ namespace SchoolSite100._0
 
                     await context.Response.WriteAsJsonAsync(currLogin);
                 });
-                endpoints.MapGet("/getIds", async context =>
+                endpoints.MapGet("/getUsrIds", async context =>
                 {
                     var sm = app.ApplicationServices.GetService<AutentificationManager>();
                     var currId = sm.GetUserIds();
@@ -291,6 +292,47 @@ namespace SchoolSite100._0
                     var sm = app.ApplicationServices.GetService<NewsManager>();
                     var query = await context.Request.ReadFromJsonAsync<NewTemplate>();
                     sm.ChangeText( query.newNewString, query.Id);
+                });
+                
+                endpoints.MapGet("/getFormsIdsfl", async context =>
+                {
+                    var fm = app.ApplicationServices.GetService<FormsManager>();
+                    var currForm = fm.GetFormsId();
+
+                    await context.Response.WriteAsJsonAsync(currForm);
+                });
+                endpoints.MapGet("/getFormsfl", async context =>
+                {
+                    var fm = app.ApplicationServices.GetService<FormsManager>();
+                    var currForm = fm.GetForms();
+
+                    await context.Response.WriteAsJsonAsync(currForm);
+                });
+                endpoints.MapPut("/changeFormInL", async context =>
+                {
+                    var fm = app.ApplicationServices.GetService<FormsManager>();
+                    var query = await context.Request.ReadFromJsonAsync<FormContent>();
+
+                    fm.ChangeForm(query.FormString, query.Id);
+                });
+                endpoints.MapPut("/deleteFormInL", async context =>
+                {
+                    var fm = app.ApplicationServices.GetService<FormsManager>();
+                    var query = await context.Request.ReadFromJsonAsync<FormContent>();
+
+                    fm.RemoveForm(query.Id);
+                });
+                endpoints.MapPost("/addForm", async context =>
+                {
+                    var fm = app.ApplicationServices.GetService<FormsManager>();
+                    var query = await context.Request.ReadFromJsonAsync<FormContent>();
+                    fm.AddForm(query.FormString);
+                });
+                endpoints.MapPost("/IsReged", async context => {
+                    var am = app.ApplicationServices.GetService<AutentificationManager>();
+                    var query = await context.Request.ReadFromJsonAsync<RegistrationContent>();
+                    await context.Response.WriteAsJsonAsync(am.IsRegistredEarlier(query.loginString, query.emailString));
+
                 });
             });
         }

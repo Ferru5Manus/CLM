@@ -138,7 +138,7 @@
         var titles = JSON.parse(await response.text())
         var news = JSON.parse(await response2.text())
         var ids = JSON.parse(await response3.text())
-        for (var i = 0; i < titles.length; i++) {
+        for (var i = titles.length-1; i > -1; i--) {
             var newNew = document.createElement("div");
             newNew.id = ids[i];
             newNew.innerHTML ='<div class="b">'+ '<div class="flex-column border border-secondary" style="font-size:20px;">' + titles[i] + "</div>" + '<div class="flex-column border border-secondary">' + news[i] + "</div>"+'</div>'

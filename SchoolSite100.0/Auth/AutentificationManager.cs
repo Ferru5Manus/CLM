@@ -91,7 +91,18 @@ namespace SchoolSite100._0
             }
 
         }
+        public bool IsRegistredEarlier(string login,string email)
+        {
+            if (AccountDto.GetUserByLogin(new AccountsDto { login = login }).Count!=0 && AccountDto.GetPasswordByEmail(new AccountsDto { email = email}).Count != 0)
 
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public bool IsExists(string email)
         {
             if (AccountDto.GetUserByEmail(new AccountsDto {email=email}).Count>0)
@@ -115,7 +126,7 @@ namespace SchoolSite100._0
             }
             return false;
         }
-       
+        
 
         public List<string> GetUserIds()
         {
@@ -178,7 +189,7 @@ namespace SchoolSite100._0
             // тема письма
             m.Subject = "Восстановление пароля";
             // текст письма
-            m.Body = "<h2>Здравствуйте, недавно вы пытались восстановить данные своего пароля.</h2><span>Ваш логин: "+login+" Ваш пароль:"+password+"</span>";
+            m.Body = "<h2>Здравствуйте, недавно вы пытались восстановить данные своего аккаунта.</h2><span>Ваш логин: "+login+" Ваш пароль:"+password+"</span>";
 
             // письмо представляет код html
             m.IsBodyHtml = true;
