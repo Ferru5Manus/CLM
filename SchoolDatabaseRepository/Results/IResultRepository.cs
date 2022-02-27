@@ -13,7 +13,9 @@ namespace SchoolDatabaseRepository
         List<string> GetResultByLogin(ResultDto result);
         void AddResult(ResultDto result);
         void RemoveResult(ResultDto result);
+        void RemoveResultByForm(ResultDto result);
         List<string> GetIdsByTask(ResultDto result);
         List<string> GetIdsByTaskLogin(ResultDto result);
+        
     }
 }

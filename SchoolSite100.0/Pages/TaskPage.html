@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <title>Задания</title>
+    <title>Tasks</title>
     <style>
         button {
             color: rgb(33, 37, 41);
@@ -77,7 +77,7 @@
             margin-right: auto;
         }
         .b{
-            background-color: lightgray;
+            
             width: 450px;
             margin-top: 10px;
 
@@ -133,6 +133,7 @@
             anstextdiv.style="background-color:green"
             ansbutton=document.getElementById("Complete"+id)
             ansbutton.style="background-color:green"
+            
         }
         else{
             anstitlediv = document.getElementById("titleZ"+id)
@@ -168,7 +169,7 @@
                 var nav3 = document.getElementById("3")
                 nav1.innerHTML = '<a class="nav-link" aria-current="page" href="/taskAdmPage">TaskAdministration</a>'
                 nav2.innerHTML = '<a class="nav-link" aria-current="page" href="/adminMainPage">NewsAdministration</a>'
-                nav3.innerHTML = '<a class="nav-link" aria-current="page" href="/adminUsersPage">UsersAdministration</a>'
+                nav3.innerHTML = '<a class="nav-link" aria-current="page" href="/adminUsersPage">UsersAndFormsAdministration</a>'
             }
             if (acc == "Teacher") {
                 var nav1 = document.getElementById("1")
@@ -196,6 +197,7 @@
                     }
                     
                 })
+
             var outputGroup = document.getElementById("output-group-content");
             outputGroup.innerHTML = ""
 
@@ -204,8 +206,16 @@
             for (var i = 0; i < ids.length; i++) {
                 var newTaskGr = document.createElement("div");
                 newTaskGr.id = ids[i];
-
-                newTaskGr.innerHTML = '<div class="b" style="display: inline-block;">' + '<div class="flex-row border border-secondary" id="taskGrZ' + ids[i] + '">' + '<span>' + names[i] + '</span>' + '<button id="CompleteTaskGr' + ids[i] + '" onclick="OnCompleteTaskGr(' + ids[i] +') "> OpenTaskGr </button>' + "</div > " + '</div>'
+                var response2 = await fetch("/getResultInTaskGr",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ TaskGrId:ids[i]})
+                })
+                var res = JSON.parse(await response2.text())
+                newTaskGr.innerHTML = '<div class="b" style="display: inline-block;">' + '<div class="flex-row border border-secondary" id="taskGrZ' + ids[i] + '">' + '<span>' + names[i] + '</span>' + '<button id="CompleteTaskGr' + ids[i] + '" onclick="OnCompleteTaskGr(' + ids[i] +') "> Open task group </button>'+'<span>'+res+"%"+"</span>" + "</div > " + '</div>'
                 outputGroup.appendChild(newTaskGr);
             }
     }

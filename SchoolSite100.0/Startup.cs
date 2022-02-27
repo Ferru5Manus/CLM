@@ -67,14 +67,24 @@ namespace SchoolSite100._0
                 endpoints.MapGet("/taskAdmPage", async context =>
                 {
                     string page = File.ReadAllText("Pages/taskAdminPage.html");
-                    await context.Response.WriteAsync(page);
+                    var sm = app.ApplicationServices.GetService<AutentificationManager>();
+                    var login = context.User.Identity.Name;
+                    string page2 = File.ReadAllText("Pages/MainPage.html");
+                    if (sm.GetRole(login)=="Admin" || sm.GetRole(login)=="Teacher")
+                    {
+                        await context.Response.WriteAsync(page);
+                    }
+                    else
+                    {
+                        await context.Response.WriteAsync(page2);
+                    }
                 }).RequireAuthorization();
 
                 endpoints.MapGet("/taskPage", async context =>
                 {
                     string page = File.ReadAllText("Pages/TaskPage.html");
                     await context.Response.WriteAsync(page);
-                });
+                }).RequireAuthorization();
                 endpoints.MapGet("/auth", async context =>
                 {
                     string page = File.ReadAllText("Pages/loginPage.html");
@@ -89,8 +99,8 @@ namespace SchoolSite100._0
                 });
                 endpoints.MapPost("/login", async context => {
                     var credentials = await context.Request.ReadFromJsonAsync<RegistrationContent>();
-                    // с заданным логином и паролем мы пойдем в базу
-                    // если в базе есть пользователь, то всё ок, если нет, то ничего не делаем
+                    // Г± Г§Г Г¤Г Г­Г­Г»Г¬ Г«Г®ГЈГЁГ­Г®Г¬ ГЁ ГЇГ Г°Г®Г«ГҐГ¬ Г¬Г» ГЇГ®Г©Г¤ГҐГ¬ Гў ГЎГ Г§Гі
+                    // ГҐГ±Г«ГЁ Гў ГЎГ Г§ГҐ ГҐГ±ГІГј ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гј, ГІГ® ГўГ±Вё Г®ГЄ, ГҐГ±Г«ГЁ Г­ГҐГІ, ГІГ® Г­ГЁГ·ГҐГЈГ® Г­ГҐ Г¤ГҐГ«Г ГҐГ¬
                     var lm = app.ApplicationServices.GetService<AutentificationManager>();
                     if (lm.IsRegistred(credentials.loginString,credentials.passwordString) == true)
                     {
@@ -98,13 +108,13 @@ namespace SchoolSite100._0
                         {
                             new Claim(ClaimsIdentity.DefaultNameClaimType, credentials.loginString)
                         };
-                        // создаем объект ClaimsIdentity
+                        // Г±Г®Г§Г¤Г ГҐГ¬ Г®ГЎГєГҐГЄГІ ClaimsIdentity
                         ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
 
-                        // добавляем куки нашему пользователю
+                        // Г¤Г®ГЎГ ГўГ«ГїГҐГ¬ ГЄГіГЄГЁ Г­Г ГёГҐГ¬Гі ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гѕ
                         await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
                         
-                        // перенаправляем на нужную сраницу
+                        // ГЇГҐГ°ГҐГ­Г ГЇГ°Г ГўГ«ГїГҐГ¬ Г­Г  Г­ГіГ¦Г­ГіГѕ Г±Г°Г Г­ГЁГ¶Гі
                         context.Response.Redirect("/mainPage");
                     }
 
@@ -113,7 +123,7 @@ namespace SchoolSite100._0
                
                 endpoints.MapGet("/adminUsersPage", async context =>
                 {
-                    string page = File.ReadAllText("Pages/htmlpage1.html");
+                    string page = File.ReadAllText("Pages/usersAdminPage.html");
                     string page2 = File.ReadAllText("Pages/MainPage.html");
                     var sm = app.ApplicationServices.GetService<AutentificationManager>();
                     var login = context.User.Identity.Name;
@@ -316,7 +326,7 @@ namespace SchoolSite100._0
                 });
                 endpoints.MapPost("/addForm", async context =>
                 {
-                    //ToDO если уже есть то вернуть на сайт false
+                    //ToDO ГҐГ±Г«ГЁ ГіГ¦ГҐ ГҐГ±ГІГј ГІГ® ГўГҐГ°Г­ГіГІГј Г­Г  Г±Г Г©ГІ false
                     var fm = app.ApplicationServices.GetService<FormsManager>();
                     var query = await context.Request.ReadFromJsonAsync<FormContent>();
                     await context.Response.WriteAsJsonAsync(fm.AddForm(query.FormString));
@@ -481,6 +491,34 @@ namespace SchoolSite100._0
                     var form = am.GetFormByLogin(login)[0];
 
                     await context.Response.WriteAsJsonAsync(fm.GetResult(new TaskTemplate { formString = form, Id = query.Id, TaskGrId = query.TaskGrId }, login));
+                });
+                endpoints.MapPost("/getResultsInTaskGr", async context =>
+                {
+                    var fm = app.ApplicationServices.GetService<TaskManager>();
+                    var query = await context.Request.ReadFromJsonAsync<TaskTemplate>();
+                    var am = app.ApplicationServices.GetService<AutentificationManager>();
+                   
+
+                    await context.Response.WriteAsJsonAsync(fm.GetAllResults(new TaskTemplate { formString = query.formString,TaskGrId = query.TaskGrId }));
+                });
+                endpoints.MapPost("/getLoginsTaskGr", async context =>
+                {
+                    var fm = app.ApplicationServices.GetService<TaskManager>();
+                    var query = await context.Request.ReadFromJsonAsync<TaskTemplate>();
+                    var am = app.ApplicationServices.GetService<AutentificationManager>();
+
+
+                    await context.Response.WriteAsJsonAsync(fm.GetAllLogins(query.formString));
+                });
+                endpoints.MapPost("/getResultInTaskGr", async context =>
+                {
+                    var fm = app.ApplicationServices.GetService<TaskManager>();
+                    var query = await context.Request.ReadFromJsonAsync<TaskTemplate>();
+                    var am = app.ApplicationServices.GetService<AutentificationManager>();
+                    var login = context.User.Identity.Name;
+                    var form = am.GetFormByLogin(login)[0];
+
+                    await context.Response.WriteAsJsonAsync(fm.GetResults(new TaskTemplate { TaskGrId=query.TaskGrId,formString=form},login));
                 });
             });
 

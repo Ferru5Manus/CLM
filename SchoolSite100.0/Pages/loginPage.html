@@ -12,17 +12,17 @@
     font-family:'Times New Roman';
     font-size:15px;
     text-align: center">
-        Перед началом работы зарегистрируйтесь или войдите в свой аккаунт.
+      
         <br>
         <div>
-            <span id="log">Введите логин</span>
+            <span id="log">Login</span>
 
         </div>
         <div>
             <input id="loginInput" type="text"></input>
         </div>
         <div>
-            <span id="ps">Введите пароль</span>
+            <span id="ps">Password</span>
         </div>
         <div>
             <input id="passwordInput" type="password"></input>
@@ -34,7 +34,7 @@
     </div>
     <script>
         var btn = document.getElementById("lb");
-        btn.addEventListener("click", OnLoginClick);
+        
         async function OnLoginClick() {
             var login = document.getElementById("loginInput").value
             var password = document.getElementById("passwordInput").value
@@ -44,7 +44,8 @@
             else if (password == "") {
                 alert("Password input must be filled!");
             }
-            var response = await fetch("/regCheck",
+            else{
+                var response = await fetch("/regCheck",
                 {
                     method: 'POST',
                     headers: {
@@ -52,21 +53,23 @@
                     },
                     body: JSON.stringify({ emailString: null, loginString: login, passwordString: password })
                 });
-            IsRegistered = JSON.parse(await response.text())
-            if (IsRegistered == false) {
-                alert("There is no such user.")
-            }
-            else {
-                await fetch("/login", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
+                IsRegistered = JSON.parse(await response.text())
+                if (IsRegistered == false) {
+                    alert("Error incorrect email or password.")
+                }
+                else {
+                    await fetch("/login", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
 
-                    },
-                    body: JSON.stringify({ loginString: login, passwordString: password })
-                });
-                window.location = '/mainPage'
+                        },
+                        body: JSON.stringify({ loginString: login, passwordString: password })
+                    });
+                    window.location = '/mainPage'
+                }
             }
+            
         }
     </script>
     <script>

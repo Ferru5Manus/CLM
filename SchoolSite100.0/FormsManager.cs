@@ -12,6 +12,8 @@ namespace SchoolSite100._0
     {
         private static string path = @"C:\Tasks";
         FormsDatabaseRepository repository = new FormsDatabaseRepository();
+        private ResultsDatabaseRepository res = new ResultsDatabaseRepository();
+        private AccountsDatabaseRepository acc = new AccountsDatabaseRepository();
         public bool AddForm(string formString)
         {
             if (!IsFormExists(formString))
@@ -57,7 +59,10 @@ namespace SchoolSite100._0
         {
             
             RemoveFormFolder(repository.GetForms(new FormDto() { Id = id })[0]).GetAwaiter();
+           
+            
             repository.RemoveForm(new FormDto() { Id = id });
+            
             return true;
         }
         
@@ -105,6 +110,14 @@ namespace SchoolSite100._0
                 foreach (FileInfo file in dirInfo.GetFiles())
                 {
                     file.Delete();
+                }
+                foreach (DirectoryInfo directory in dirInfo.GetDirectories())
+                {
+                    foreach(FileInfo f in directory.GetFiles())
+                    {
+                        f.Delete();
+                    }
+                    directory.Delete();
                 }
                 try
                 {

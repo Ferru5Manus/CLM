@@ -12,6 +12,7 @@ namespace SchoolDatabaseRepository
         public string login { get; set; }
         public int taskGrId { get; set; }
         public int taskId { get; set; }
+        public string formString { get; set; }
         public string taskResult { get; set; }
     }
 }

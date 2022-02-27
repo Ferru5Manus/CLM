@@ -21,18 +21,19 @@ namespace SchoolSite100._0
 
             try
             {
-                using (StreamWriter sw = new StreamWriter($"{path}/{FormString}/TaskGroupInfo.txt", true, System.Text.Encoding.Default))
+
+                try
                 {
-                    try
-                    {
-                        var lastLine = File.ReadLines($"{path}/{FormString}/TaskGroupInfo.txt").Last();
-                        string[] data = lastLine.Split('|');
-                        string x = hw.Id + "-_-" + hw.Name;
+                    var lastLine = File.ReadAllLines($"{path}/{FormString}/TaskGroupInfo.txt").Last();
+                    string[] data = lastLine.Split('|');
+                    string x = (Convert.ToInt32(data[0])+1).ToString() + "-_-" + hw.Name;
                         Directory.CreateDirectory($"{path}/{FormString}/{x}");
                         int id = Convert.ToInt32(data[0]) + 1;
-                        await sw.WriteLineAsync(id.ToString() + "|" + hw.Name);
-                        sw.Close();
-                      
+                        using (StreamWriter sw = new StreamWriter($"{path}/{FormString}/TaskGroupInfo.txt", true, System.Text.Encoding.Default))
+                        {
+                            await sw.WriteLineAsync((Convert.ToInt32(data[0]) + 1).ToString() + "|" + hw.Name);
+                            sw.Close();
+                        }
                      }
                     catch(Exception)
                     {
@@ -41,13 +42,15 @@ namespace SchoolSite100._0
                         string x = '1' + "-_-" + hw.Name;
                         Directory.CreateDirectory($"{path}/{FormString}/{x}");
                         int id = 1;
-                        await sw.WriteLineAsync(id.ToString() + "|" + hw.Name);
-                        sw.Close();
-                        
+                        using (StreamWriter sw = new StreamWriter($"{path}/{FormString}/TaskGroupInfo.txt", true, System.Text.Encoding.Default))
+                        {
+                            await sw.WriteLineAsync(id.ToString() + "|" + hw.Name);
+                            sw.Close();
+                        }
 
                     }
                     
-                }
+                
                 
                 
                
