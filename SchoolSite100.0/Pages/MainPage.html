@@ -145,7 +145,7 @@
             var outputGroup = document.getElementById("output-group-content");
             outputGroup.appendChild(newNew);
         }
-        var response = await fetch("/IsAdm",
+        var response = await fetch("/Whois",
             {
                 method: 'POST',
                 headers: {
@@ -153,13 +153,21 @@
                 }
             });
         var acc = JSON.parse(await response.text())
-        if (acc == true) {
+        if (acc == "Admin") {
             var nav1 = document.getElementById("nav1")
             var nav2 = document.getElementById("nav2")
             var nav3 = document.getElementById("nav3")
             nav1.innerHTML = '<a class="nav-link" aria-current="page" href="/taskAdmPage">TaskAdministration</a>'
             nav2.innerHTML = '<a class="nav-link" aria-current="page" href="/adminMainPage">NewsAdministration</a>'
             nav3.innerHTML = '<a class="nav-link" aria-current="page" href="/adminUsersPage">UsersAdministration</a>'
+        }
+        if (acc == "Teacher") {
+            var nav1 = document.getElementById("nav1")
+            var nav2 = document.getElementById("nav2")
+            
+            nav1.innerHTML = '<a class="nav-link" aria-current="page" href="/taskAdmPage">TaskAdministration</a>'
+            nav2.innerHTML = '<a class="nav-link" aria-current="page" href="/adminMainPage">NewsAdministration</a>'
+            
         }
     }
     async function Clear() {

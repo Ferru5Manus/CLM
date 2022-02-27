@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <title>Новости</title>
+    <title>Задания</title>
     <style>
         button {
             color: rgb(33, 37, 41);
@@ -63,7 +63,7 @@
     </style>
 </head>
 
-<body onload="onShowButtonClick()">
+<body onload="WhoIs()">
     <style>
         /* Image Designing Propoerties */
         .thumb {
@@ -85,7 +85,7 @@
     </style>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">News</a>
+            <a class="navbar-brand" href="#">Tasks</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -94,54 +94,178 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/mainPage">News</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/taskPage">Tasks</a>
+                   
+                    <li id="1" class="nav-item">
+                        
+                    </li>
+                    <li id="2" class="nav-item">
+                        
+                    </li>
+                    <li id="3" class="nav-item">
+                        
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="newsDiv" style="text-align:center;">
+    <div class="taskGtDiv" style="text-align:center;">
+        <button onclick="onShowTaskGrs()">Show task groups</button>
         <div id="output-group-content"></div>
     </div>
     <script>
-    async function onShowButtonClick() {
-        var response = await fetch("/getTitles",
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-        var response2 = await fetch("/getNews",
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-        var response3 = await fetch("/getIds",
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        Clear();
-        var titles = JSON.parse(await response.text())
-        var news = JSON.parse(await response2.text())
-        var ids = JSON.parse(await response3.text())
-        for (var i = 0; i < titles.length; i++) {
-            var newNew = document.createElement("div");
-            newNew.id = ids[i];
-            newNew.innerHTML ='<div class="b">'+ '<div class="flex-column border border-secondary" style="font-size:20px;">' + titles[i] + "</div>" + '<div class="flex-column border border-secondary">' + news[i] + "</div>"+'</div>'
-            var outputGroup = document.getElementById("output-group-content");
-            outputGroup.appendChild(newNew);
+   
+    async function OnCompleteTask(TaskGrId,id,title,text)
+    {
+        ans=document.getElementById('ans'+id).value
+        var response = await fetch("/complete",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ TaskGrId: TaskGrId,id:id,Title:title,Text:text,Answer:ans })
+                })
+        var IsCorrect = JSON.parse(await response.text())
+        if(IsCorrect==true){
+            anstitlediv = document.getElementById("titleZ"+id)
+            anstitlediv.style="background-color:green"
+            anstextdiv=document.getElementById("texteZ"+id)
+            anstextdiv.style="background-color:green"
+            ansbutton=document.getElementById("Complete"+id)
+            ansbutton.style="background-color:green"
         }
+        else{
+            anstitlediv = document.getElementById("titleZ"+id)
+            anstitlediv.style="background-color:red"
+            anstextdiv=document.getElementById("texteZ"+id)
+            anstextdiv.style="background-color:red"
+            ansbutton=document.getElementById("Complete"+id)
+            ansbutton.style="background-color:red"
+        }
+
     }
+
+    
     async function Clear() {
         var outputGroup = document.getElementById("output-group-content");
         outputGroup.innerHTML = "";
+
+    }
+</script>
+<script type="text/javascript">
+     async function WhoIs() {
+            var response = await fetch("/Whois",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+            var acc = JSON.parse(await response.text())
+            if (acc == "Admin") {
+                var nav1 = document.getElementById("1")
+                var nav2 = document.getElementById("2")
+                var nav3 = document.getElementById("3")
+                nav1.innerHTML = '<a class="nav-link" aria-current="page" href="/taskAdmPage">TaskAdministration</a>'
+                nav2.innerHTML = '<a class="nav-link" aria-current="page" href="/adminMainPage">NewsAdministration</a>'
+                nav3.innerHTML = '<a class="nav-link" aria-current="page" href="/adminUsersPage">UsersAdministration</a>'
+            }
+            if (acc == "Teacher") {
+                var nav1 = document.getElementById("1")
+                var nav2 = document.getElementById("2")
+
+                nav1.innerHTML = '<a class="nav-link" aria-current="page" href="/taskAdmPage">TaskAdministration</a>'
+                nav2.innerHTML = '<a class="nav-link" aria-current="page" href="/adminMainPage">NewsAdministration</a>'
+                
+            }
+        }
+         async function onShowTaskGrs() {
+        var response = await fetch("/getTaskGrTitles2",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                   
+                })
+            var response1 = await fetch("/getTaskGrNames2",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                    
+                })
+            var outputGroup = document.getElementById("output-group-content");
+            outputGroup.innerHTML = ""
+
+            var ids = JSON.parse(await response.text())
+            var names = JSON.parse(await response1.text())
+            for (var i = 0; i < ids.length; i++) {
+                var newTaskGr = document.createElement("div");
+                newTaskGr.id = ids[i];
+
+                newTaskGr.innerHTML = '<div class="b" style="display: inline-block;">' + '<div class="flex-row border border-secondary" id="taskGrZ' + ids[i] + '">' + '<span>' + names[i] + '</span>' + '<button id="CompleteTaskGr' + ids[i] + '" onclick="OnCompleteTaskGr(' + ids[i] +') "> OpenTaskGr </button>' + "</div > " + '</div>'
+                outputGroup.appendChild(newTaskGr);
+            }
+    }
+    async function OnCompleteTaskGr(id){
+        var outputGroup = document.getElementById("output-group-content");
+        outputGroup.innerHTML = ""
+        var response = await fetch("/getTaskIds2",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ TaskGrId: id})
+                })
+            var response1 = await fetch("/getTaskTitles2",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ TaskGrId: id })
+                })
+            var response2 = await fetch("/getTaskTextes2",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ TaskGrId: id })
+                })
+
+            var ids = JSON.parse(await response.text())
+            var titles = JSON.parse(await response1.text())
+            var textes = JSON.parse(await response2.text())
+            for (var i = 0; i < ids.length; i++) {
+                var newTasks = document.createElement("div");
+                newTasks.id = ids[i];
+                newTasks.style = ""
+                newTasks.innerHTML = '<div class="b" style="display: inline-block;">' + '<div class="flex-row border border-secondary" id="titleZ' + ids[i] + '">' + '<span>' + titles[i] + '</span>'  + "</div > " + '<div class="flex-row border border-secondary" id="texteZ' + ids[i] + '">' + '<span>' + textes[i] + '</span>'  + "</div > "+'<span class="input-group-text" id = "input-group-text"> Type your answer :</span ><textarea id="ans'+ids[i]+'" class="form-control"></textarea>'+  '<button id="Complete' + ids[i] + '" onclick="OnCompleteTask(' + id + ',' + ids[i] + ',\'' + titles[i] + '\'' + ',\'' + textes[i] + '\'' +') "> Complete </button>'+ '</div>'
+                outputGroup.appendChild(newTasks);
+                var response3= await fetch("/getResult",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ TaskGrId:id,id:ids[i]})
+                })
+                var IsComplete = JSON.parse(await response3.text())
+                if(IsComplete==true){
+                    anstitlediv = document.getElementById("titleZ"+ids[i])
+                    anstitlediv.style="background-color:green"
+                    anstextdiv=document.getElementById("texteZ"+ids[i])
+                    anstextdiv.style="background-color:green"
+                    ansbutton=document.getElementById("Complete"+ids[i])
+                    ansbutton.style="background-color:green"
+                }
+                
+
+            }
 
     }
 </script>

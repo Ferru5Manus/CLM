@@ -14,6 +14,8 @@ namespace SchoolSite100._0
     public class AutentificationManager
     {
         private AccountsDatabaseRepository AccountDto = new AccountsDatabaseRepository();
+        private FormsManager forms = new FormsManager();
+        private List<string> roles = new List<string> { "Admin", "User", "Teacher" };
         public void Register(string login, string password, string email)
         {
             if (IsRegistred(login,password,email)==false)
@@ -103,6 +105,7 @@ namespace SchoolSite100._0
                 return false;
             }
         }
+        
         public bool IsExists(string email)
         {
             if (AccountDto.GetUserByEmail(new AccountsDto {email=email}).Count>0)
@@ -114,17 +117,14 @@ namespace SchoolSite100._0
                 return false;
             }
         }
-        public bool IsAdmin(string login)
+        public string GetRole(string login)
         {
             if(AccountDto.GetRoleByLogin(new AccountsDto { login = login }) != null)
             {
-                if (AccountDto.GetRoleByLogin(new AccountsDto { login = login })[0]=="Admin")
-                {
-                    return true;
-                }
-                return false;
+                
+                return AccountDto.GetRoleByLogin(new AccountsDto { login = login })[0];
             }
-            return false;
+            return "";
         }
         
 
@@ -132,6 +132,12 @@ namespace SchoolSite100._0
         {
             List<string> i = new List<string>();
             i = AccountDto.GetAllUsersIds();
+            return i;
+        }
+        public List<string> GetFormByLogin(string login)
+        {
+            List<string> i = new List<string>();
+            i = AccountDto.GetFormByLogin(new AccountsDto { login = login });
             return i;
         }
         public List<string> GetUserLogins()
@@ -159,21 +165,31 @@ namespace SchoolSite100._0
             return i;
         }
 
-        public void UpdateLogin(int id, string login)
+       
+       
+        public bool UpdateForm(int id, string form)
         {
-            AccountDto.UpdateLogin(new AccountsDto { login = login, id = id });
+            
+            
+            if (forms.IsFormExists(form))
+            {
+                AccountDto.UpdateForm(new AccountsDto { form = form, id = id });
+                return true;
+            }
+            return false;
+           
         }
-        public void UpdateEmail(int id, string email)
+        public bool UpdateRole(int id, string role)
         {
-            AccountDto.UpdateEmail(new AccountsDto { email = email, id = id });
-        }
-        public void UpdateForm(int id, string form)
-        {
-            AccountDto.UpdateForm(new AccountsDto { form=form, id = id });
-        }
-        public void UpdateRole(int id, string role)
-        {
-            AccountDto.UpdateRole (new AccountsDto { role = role, id = id });
+            foreach (var item in roles)
+            {
+                if (item==role)
+                {
+                    AccountDto.UpdateRole(new AccountsDto { role = role, id = id });
+                    return true;
+                }
+            }
+            return false;
         }
         public void SendPassword(string email)
         {

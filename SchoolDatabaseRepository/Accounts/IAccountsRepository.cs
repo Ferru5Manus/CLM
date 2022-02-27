@@ -14,8 +14,7 @@ namespace SchoolDatabaseRepository
         List<string> GetUserEmails();
         List<string> GetUserRoles();
         List<string> GetUserForms();
-        void UpdateLogin(AccountsDto account);
-        void UpdateEmail(AccountsDto account);
+
         void UpdateForm(AccountsDto account);
         void UpdateRole(AccountsDto account);
         List<string> GetPasswordByEmail(AccountsDto accounts);
@@ -24,5 +23,8 @@ namespace SchoolDatabaseRepository
         List<string> GetUserByLogin(AccountsDto account);
         List<string> GetUserByEmail(AccountsDto account);
         List<string> GetRoleByLogin(AccountsDto accounts);
+        List<string> GetLoginsByForm(AccountsDto accounts);
+        List<string> GetFormByLogin(AccountsDto accounts);
+
     }
 }

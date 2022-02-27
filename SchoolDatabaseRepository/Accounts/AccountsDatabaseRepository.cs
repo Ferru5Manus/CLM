@@ -110,6 +110,7 @@ namespace SchoolDatabaseRepository
 
 
         }
+
         public List<string> GetLoginByEmail(AccountsDto accounts)
         {
             List<string> lst = new List<string>();
@@ -170,16 +171,7 @@ namespace SchoolDatabaseRepository
         return lst;
     }
 
-    public void UpdateEmail(AccountsDto account)
-    {
-        using (IDbConnection db = new MySqlConnection("Server=127.0.0.1;Database=clm;Uid=root;Pwd=root;"))
-        {
-
-            string sqlQuery1 = "UPDATE users SET email = @email WHERE id LIKE @id; ";
-
-            int rowsAffected = db.Execute(sqlQuery1, account);
-        }
-    }
+    
 
     public void UpdateForm(AccountsDto account)
     {
@@ -192,16 +184,7 @@ namespace SchoolDatabaseRepository
         }
     }
 
-    public void UpdateLogin(AccountsDto account)
-    {
-        using (IDbConnection db = new MySqlConnection("Server=127.0.0.1;Database=clm;Uid=root;Pwd=root;"))
-        {
-
-            string sqlQuery1 = "UPDATE users SET login = @login WHERE id LIKE @id; ";
-
-            int rowsAffected = db.Execute(sqlQuery1, account);
-        }
-    }
+   
 
         public void UpdateRole(AccountsDto account)
         {
@@ -212,6 +195,32 @@ namespace SchoolDatabaseRepository
 
                 int rowsAffected = db.Execute(sqlQuery1, account);
             }
+        }
+
+        public List<string> GetLoginsByForm(AccountsDto accounts)
+        {
+            List<string> lst = new List<string>();
+            using (MySqlConnection cnx = new MySqlConnection("Server = 127.0.0.1; Database = clm; Uid = root; Pwd = root;"))
+            {
+                var result = cnx.Query<AccountsDto>("select * from users where form = @form", new { accounts.form }).ToList();
+                lst = result.Select(news => news.login.ToString()).ToList();
+            }
+
+
+            return lst;
+        }
+
+        public List<string> GetFormByLogin(AccountsDto accounts)
+        {
+            List<string> lst = new List<string>();
+            using (MySqlConnection cnx = new MySqlConnection("Server = 127.0.0.1; Database = clm; Uid = root; Pwd = root;"))
+            {
+                var result = cnx.Query<AccountsDto>("select * from users where login = @login", new { accounts.login }).ToList();
+                lst = result.Select(news => news.form.ToString()).ToList();
+            }
+
+
+            return lst;
         }
     }
  }

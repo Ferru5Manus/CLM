@@ -23,7 +23,7 @@
                         <a class="nav-link" aria-current="page" href="/taskPage">Tasks</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/taskAdmPage">TaskAdministration</a>
+                        <a class="nav-link" aria-current="page" href="/adminUsersPage">UsersAdministration</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/adminMainPage">NewsAdministration</a>
@@ -34,18 +34,20 @@
     </nav>
 
     <div class="input-group" style="width: 70%; margin-lef1t: 10%">
-        <span class="input-group-text" id="input-group-text">Добавить название задание:</span>
-        <textarea id="taskTitleInput" class="form-control"></textarea>
-        <button class="btn btn-primary" id="btn-primary" onclick="onAddButtonClick()">Add 🍕</button>
+        <span class="input-group-text" id="input-group-text">Add task group title:</span>
+        <textarea id="taskGrTitleInput" class="form-control"></textarea>
+        <span class="input-group-text" id="input-group-text">Insert form for adding task group:</span>
+        <textarea id="FormInput" class="form-control"></textarea>
+        <button class="btn btn-primary" id="btn-primary" onclick="onAddTaskGrButtonClick()">Add </button>
 
     </div>
     <div class="container-fluid" style="font-size: 30px">
 
         <div class="container-fluid" style="width:70%" id="outputGroupId">
-            <center><span class="output" style="text-align: center;">Созданные ранее задания:</span></center>
+            <center><span class="output" style="text-align: center;">Task groups:</span></center>
             <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                 <div class="btn-group mr-2" role="group" aria-label="First group" style="margin:auto;">
-                    <button class="btn btn-secondary" onclick="onShowButtonClick()" style=" color: whitesmoke">Show 🍕</button>
+                    <button class="btn btn-secondary" onclick="onShowForms()" style=" color: whitesmoke">Show forms and tasks</button>
                     <button class="btn btn-secondary" onclick="Clear('output-group-content')" style="color: aqua">Clear</button>
                 </div>
             </div>
@@ -53,214 +55,309 @@
             <div class="container-fluid" id="output-group-content"></div>
             <div class="container-fluid" id="subtaskContext"></div>
         </div>
+        
     </div>
 
     <script>
-        async function onAddButtonClick() {
-            var title2 = document.getElementById("taskTitleInput").value;
-
-            var response = await fetch("/addTask",
+        async function onAddTaskGrButtonClick() {
+            var title = document.getElementById("taskGrTitleInput").value;
+            var form = document.getElementById("FormInput").value;
+            var response = await fetch("/addTaskGr",
                 {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json'
 
                     },
-                    body: JSON.stringify({ title: title2 })
+                    body: JSON.stringify({ Name: title,formString : form })
 
                 });
             var Exists = JSON.parse(await response.text())
-            if (Exists == "true") {
-                alert("This task already exists!");
+            if (Exists == false) {
+                alert("Error!");
             }
             else {
-                alert("Task added!")
+                alert("Task group added.")
             }
-            alert("Нажмите кнопку Show, и добавьте текст задания и ответ");
+            
         }
-        async function onShowButtonClick() {
-            var response = await fetch("/getTaskTitles",
+       
+        function Clear(id) {
+            var outputGroup = document.getElementById(id);
+            outputGroup.innerHTML = "";
+
+        }
+      
+    </script>
+    <script>
+        
+        async function OnShowTaskGrInForm(id, formName) {
+
+
+            var response = await fetch("/getTaskGrTitles",
                 {
-                    method: 'GET',
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
-                    }
-                });
+                    },
+                    body: JSON.stringify({ formString: formName })
+                })
+            var response1 = await fetch("/getTaskGrNames",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ formString: formName })
+                })
+            var outputGroup = document.getElementById("output-group-content");
+            outputGroup.innerHTML = ""
 
-            var response3 = await fetch("/getTIds",
+            var ids = JSON.parse(await response.text())
+            var names = JSON.parse(await response1.text())
+            for (var i = 0; i < ids.length; i++) {
+                var newTaskGr = document.createElement("div");
+                newTaskGr.id = ids[i];
+
+                newTaskGr.innerHTML = '<div class="b" style="display: inline-block;">' + '<div class="flex-row border border-secondary" id="taskGrZ' + ids[i] + '">' + '<span>' + names[i] + '</span>' + '<button id="ChangeTaskGrContent' + ids[i] + '" onclick="OnChangeTaskGrContent(' + ids[i] + ',\'' + formName + '\') "> ChangeTaskGrContent </button>' + '<button id="DeleteTaskGr' + ids[i] + '" onclick="OnDeleteTaskGr(' + ids[i] + ',\'' + formName + '\') "> DeleteTaskGr </button>'+ "</div > " + '</div>'
+                outputGroup.appendChild(newTaskGr);
+            }
+        }
+        async function OnDeleteTaskGr(taskGrId, formString) {
+            await fetch("/removeTaskGr", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+
+                },
+                body: JSON.stringify({ Id: taskGrId, formString: formString })
+            });
+            Clear('output-group-content');
+        }
+        async function OnChangeTaskGrContent(TaskGrId, formName) {
+            Clear('output-group-content');
+            var outputGroup = document.getElementById('output-group-content')
+            var addTask = document.createElement('div')
+            var showTasks = document.createElement('div')
+            showTasks.id='showTasks'
+            showTasks.innerHTML = '<button onclick="ShowTasks(' + TaskGrId + ",\'" + formName +"\'"+')">ShowTasks</button>'
+            addTask.innerHTML = '<span class="input-group-text" id = "input-group-text"> Insert task title:</span ><textarea id="taskTitle" class="form-control"></textarea><span class="input-group-text" id="input-group-text">Insert task text:</span><textarea id="TaskText" class="form-control"></textarea><span class="input-group-text" id="input-group-text">Insert answer:</span><textarea id="TaskAnswer" class="form-control"></textarea><button class="btn btn-primary" id="btn-primary" onclick="onAddTaskButtonClick(' + TaskGrId + ",\'" + formName + "\'" + ')">AddTask </button>'
+            outputGroup.appendChild(addTask);
+            outputGroup.appendChild(showTasks);
+            var tasksDiv = document.createElement('div')
+            tasksDiv.id = 'tasksDiv'
+            tasksDiv.style ='display: inline-block;'
+            outputGroup.appendChild(tasksDiv)
+        }
+        async function onAddTaskButtonClick(TaskGrId, formName) {
+            var taskTitle = document.getElementById('taskTitle').value;
+            var taskText = document.getElementById('TaskText').value;
+            var taskAnswer = document.getElementById('TaskAnswer').value;
+            var response = await fetch("/AddTask", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+
+                },
+                body: JSON.stringify({ TaskGrId: TaskGrId, formString: formName, Title: taskTitle, Text: taskText, Answer: taskAnswer })
+            });
+            var IsAdded = JSON.parse(await response.text())
+            if (IsAdded == true) {
+                alert("Task added.")
+                Clear('tasksDiv');
+            }
+            else {
+                alert("This task already exists.")
+            }
+            
+           
+        }
+        async function ShowTasks(TaskGrId, formName) {
+            alert("Remember task has to have unique title.")
+            var response = await fetch("/getTaskIds",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ formString: formName, TaskGrId: TaskGrId })
+                })
+            var response1 = await fetch("/getTaskTitles",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ formString: formName, TaskGrId: TaskGrId })
+                })
+            var response2 = await fetch("/getTaskTextes",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ formString: formName, TaskGrId: TaskGrId })
+                })
+            var response3 = await fetch("/getTaskAnswers",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    
+                    },
+                    body: JSON.stringify({ formString: formName, TaskGrId: TaskGrId })
+                })
+            var outputGroup = document.getElementById("tasksDiv");
+            outputGroup.innerHTML = ""
+
+            var ids = JSON.parse(await response.text())
+            var titles = JSON.parse(await response1.text())
+            var textes = JSON.parse(await response2.text())
+            var answers = JSON.parse(await response3.text())
+            for (var i = 0; i < ids.length; i++) {
+                var newTasks = document.createElement("div");
+                newTasks.id = ids[i];
+                newTasks.style = "display: inline-block;"
+                newTasks.innerHTML = '<div class="b" style="display: inline-block;">' + '<div class="flex-row border border-secondary" id="titleZ' + ids[i] + '">' + '<span>' + titles[i] + '</span>' + '<button id="titleChange' + ids[i] + '" onclick="OnChangeTitle(' + TaskGrId + ',' + ids[i] + ',\'' + titles[i] + '\'' + ',\'' + textes[i] + '\'' + ',\'' + answers[i] + '\'' + ',\'' + formName + '\'' + ') "> ChangeTitle </button>' + "</div > " + '<div class="flex-row border border-secondary" id="texteZ' + ids[i] + '">' + '<span>' + textes[i] + '</span>' + '<button id="textChange' + ids[i] + '" onclick="OnChangeText(' + TaskGrId + ',' + ids[i] + ',\'' + titles[i] + '\'' + ',\'' + textes[i] + '\'' + ',\'' + answers[i] + '\'' + ',\'' + formName + '\'' + ') "> ChangeText </button>' + "</div > " + '<div class="flex-row border border-secondary" id="answers' + ids[i] + '">' + '<span>' + answers[i] + '</span>' + '<button id="AnswerChange' + ids[i] + '" onclick="OnChangeAnswer(' + TaskGrId + ',' + ids[i] + ',\'' + titles[i] + '\'' + ',\'' + textes[i] + '\'' + ',\'' + answers[i] + '\'' + ',\'' + formName + '\'' + ') "> ChangeAnswer </button>' + "</div > " + '<button id="AnswerChange' + ids[i] + '" onclick="OnRemoveTask(' + TaskGrId + ',' + ids[i] + ',\'' + titles[i] + '\'' + ',\'' + textes[i] + '\'' + ',\'' + answers[i] + '\'' + ',\'' + formName + '\'' + ') "> RemoveTask </button>'+ '</div>'
+                outputGroup.appendChild(newTasks);
+            }
+            
+        }
+        async function OnRemoveTask(TaskGrId, id, title, text, answer, formName) {
+            fetch("/removeTask", {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+
+                },
+                body: JSON.stringify({ id: id, formString: formName, TaskGrId: TaskGrId, Title: title, Text: text, Answer: answer })
+            });
+
+            var outputGroup = document.getElementById("showTasks");
+            outputGroup.innerHTML = ""
+        }
+
+        async function OnChangeTitle(TaskGrId, id, title, text, answer, formName) {
+            var outputGroup = document.getElementById("titleZ" + id);
+            var changeTitleInput = document.createElement("input");
+            changeTitleInput.id = "changeTitleInput" + id
+            var changeTitleButton = document.createElement("button");
+            changeTitleButton.setAttribute('onclick', 'ChangeTitle(' + TaskGrId + ',' + id + ',\'' + title + '\'' + ',\'' + text + '\'' + ',\'' + answer + '\'' + ',\'' + formName + '\'' + ')');
+            changeTitleButton.textContent = "✏";
+            outputGroup.appendChild(changeTitleInput);
+            outputGroup.appendChild(changeTitleButton);
+            
+            var mBut = document.getElementById('titleChange' + id)
+            mBut.setAttribute('onclick', '');
+            mBut.style.visibility = 'hidden';
+
+        }
+        async function ChangeTitle(TaskGrId, id, title, text, answer, formName) {
+            var newTitle = document.getElementById("changeTitleInput" + id).value
+            var response = await fetch("/changeTaskTitle", {
+                method: 'POSt',
+                headers: {
+                    'Content-Type': 'application/json'
+
+                },
+                body: JSON.stringify({ id:id,formString: formName, TaskGrId: TaskGrId, Title: newTitle, Text: text, Answer: answer })
+            });
+            var IsChanged = JSON.parse(await response.text());
+            if (IsChanged == true) {
+                var outputGroup = document.getElementById("tasksDiv");
+                outputGroup.innerHTML = ""
+            }
+            else {
+                alert("Task title must be unique!")
+            }
+        }
+        async function OnChangeText(TaskGrId, id, title, text, answer, formName) {
+            var outputGroup = document.getElementById("texteZ" + id);
+            var changeTitleInput = document.createElement("input");
+            changeTitleInput.id = "changeTextInput" + id
+            var changeTitleButton = document.createElement("button");
+            changeTitleButton.setAttribute('onclick', 'ChangeText(' + TaskGrId + ',' + id + ',\'' + title + '\'' + ',\'' + text + '\'' + ',\'' + answer + '\'' + ',\'' + formName + '\'' + ')');
+            changeTitleButton.textContent = "✏";
+            outputGroup.appendChild(changeTitleInput);
+            outputGroup.appendChild(changeTitleButton);
+
+            var mBut = document.getElementById('textChange' + id)
+            mBut.setAttribute('onclick', '');
+            mBut.style.visibility = 'hidden';
+
+        }
+        async function ChangeText(TaskGrId, id, title, text, answer, formName) {
+            var newText = document.getElementById("changeTextInput" + id).value
+            fetch("/changeTaskText", {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+
+                },
+                body: JSON.stringify({ id: id,formString: formName, TaskGrId: TaskGrId, Title: title, Text: newText, Answer: answer })
+            });
+
+            var outputGroup = document.getElementById("tasksDiv");
+            outputGroup.innerHTML = ""
+        }
+        async function OnChangeAnswer(TaskGrId, id, title, text, answer, formName) {
+            var outputGroup = document.getElementById("answers" + id);
+            var changeTitleInput = document.createElement("input");
+            changeTitleInput.id = "changeAnswerInput" + id
+            var changeTitleButton = document.createElement("button");
+            changeTitleButton.setAttribute('onclick', 'ChangeAnswer(' + TaskGrId + ',' + id + ',\'' + title + '\'' + ',\'' + text + '\'' + ',\'' + answer + '\'' + ',\'' + formName + '\'' + ')');
+            changeTitleButton.textContent = "✏";
+            outputGroup.appendChild(changeTitleInput);
+            outputGroup.appendChild(changeTitleButton);
+
+            var mBut = document.getElementById('AnswerChange' + id)
+            mBut.setAttribute('onclick', '');
+            mBut.style.visibility = 'hidden';
+
+        }
+        async function ChangeAnswer(TaskGrId, id, title, text, answer, formName) {
+            var newAnswer = document.getElementById("changeAnswerInput" + id).value
+            fetch("/changeTaskAnswer", {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+
+                },
+                body: JSON.stringify({ id: id, formString: formName, TaskGrId: TaskGrId, Title: title, Text: text, Answer: newAnswer })
+            });
+
+            var outputGroup = document.getElementById("tasksDiv");
+            outputGroup.innerHTML = ""
+        }
+    </script>
+    <script>
+        async function onShowForms() {
+            var response = await fetch("/getFormsIdsfl",
                 {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 })
-            Clear("output-group-content");
-            var titles = JSON.parse(await response.text())
-            var ids = JSON.parse(await response3.text())
-            for (var i = 0; i < titles.length; i++) {
-                var newTask = document.createElement("div");
-                newTask.id = ids[i];
-                newTask.innerHTML = '<div class="container-fluid"><span>' + titles[i] + "</span>" + '<button class="btn btn-secondary" onclick="onAddSubtaskButtonClick(\'' + titles[i] + '\',' + ids[i] + ')" style=" color: black">AddContent</button>' + '<button class="btn btn-secondary" onclick="onDeleteTaskButtonClick(\'' + titles[i] + '\',' + ids[i] + ')" style=" color: black">DeleteTask</button>' + '<button class="btn btn-secondary" onclick="onShowSubtasksButtonClick(\'' + titles[i] + '\',' + ids[i] + ')" style=" color: black">ChangeContent</button>' + "</div>"
-                var outputGroup = document.getElementById("output-group-content");
-                outputGroup.appendChild(newTask);
-            }
-        }
-        function Clear(id) {
-            var outputGroup = document.getElementById(id);
-            outputGroup.innerHTML = "";
-
-        }
-        function onAddSubtaskButtonClick(s, f) {
-            var newSubtask = document.getElementById(f.toString())
-            newSubtask.innerHTML = '<span class="input-group-text" id="input-group-text">Добавить название подзадания:</span><textarea id="subTitleInput" class="form-control"></textarea>' + '<span class="input-group-text" id="input-group-text">Добавить текст задания:</span><textarea id="subDescriptionInput" class="form-control"></textarea>' + '<span class="input-group-text" id="input-group-text">Добавить ответ</span><textarea id="subAnswerInput" class="form-control"></textarea><button class="btn btn-secondary" id="btn-primary" onclick="AddSubtask(\'' + s + '\',' + f + ')">Add' + '</button>'+'<button class="btn btn-secondary" id="btn-primary" onclick="Clear('+f.toString()+')">Clear' + '</button>'
-
-        }
-        function onDeleteTaskButtonClick(s, f) {
+            var response1 = await fetch("/getFormsfl",
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
             var outputGroup = document.getElementById("output-group-content");
-            fetch("/removeTaks", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
+            outputGroup.innerHTML = ""
 
-                },
-                body: JSON.stringify({ tableName: s, Id: f })
-            });
-            Clear("output-group-content")
-        }
-        function AddSubtask(s, f) {
-            var titlE = document.getElementById("subTitleInput").value
-            var description = document.getElementById("subDescriptionInput").value
-            var answer = document.getElementById("subAnswerInput").value
-            fetch("/addSubTask",
-                {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
+            var ids = JSON.parse(await response.text())
+            var forms = JSON.parse(await response1.text())
+            for (var i = 0; i < ids.length; i++) {
+                var newForm = document.createElement("div");
+                newForm.id = ids[i];
 
-                    },
-                    body: JSON.stringify({ tableName: s, title: titlE, text: description, answer: answer })
-
-                });
-            Clear("output-group-content")
-        }
-        async function onShowSubtasksButtonClick(s) {
-            var response1 = await fetch("/getSubTitles",
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ tableName: s })
-                });
-            var response2 = await fetch("/getSubText",
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ tableName: s })
-                });
-            var response3 = await fetch("/getSubAnswers",
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ tableName: s })
-                });
-            var response4 = await fetch("/getSubIds",
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ tableName: s })
-                });
-            var subTitles = JSON.parse(await response1.text())
-            var subText = JSON.parse(await response2.text())
-            var subAnswer = JSON.parse(await response3.text())
-            var subIds = JSON.parse(await response4.text())
-            Clear("output-group-content")
-            var outGroup = document.getElementById("subtaskContext");
-            outGroup.innerHTML = '<button class="btn btn-secondary" onclick="Clear(' + '\'subtaskContext\'' + ')" style="color: black">Clear</button>'
-            for (var i = 0; i < subTitles.length; i++) {
-                newSubTask = document.createElement("div")
-                newSubTask.id = "sub" + subIds[i];
-                newSubTask.innerHTML = '<div class="container-fluid">' + '<span class="outputGroupText">' + "Title:" + subTitles[i] + '</span>' + '<button style="color:black" class="btn btn-primary" id="btn-primary" onclick="onChangeSubtaskTitleButtonClick(' + subIds[i] + ', \'' + subTitles[i] + '\'' + ', \'' + s + '\')">ChangeTitle' + '</button>' + "</div>" + '<div class="container-fluid">' + '<span class="outputGroupText">' + "Text:" + subText[i] + '</span>' + '<button style="color:black;" class="btn btn-primary" id="btn-primary" onclick="onChangeSubtaskTextButtonClick(' + subIds[i] + ', \'' + subText[i] + '\'' + ', \'' + s + '\')">ChangeText' + '</button>' + "</div>" + '<div class="container-fluid">' + '<span class="outputGroupText">' + "Answer:" + subAnswer[i] + '</span>' + '<button style="color:black" class="btn btn-primary" id="btn-primary" onclick="onChangeSubtaskAnswerButtonClick(' + subIds[i] + ', \'' + subAnswer[i] + '\'' + ', \'' + s + '\')">ChangeAnswer' + '</button>' + "</div>" + '<button style="color:black" class="btn btn-primary" id="btn-primary" onclick="onDeleteSubtaskButtonClick(' + subIds[i] + ', \''+s+'\')">Delete' + '</button>' + '<div class="container-fluid" id="subChange">' + "</div>"
-
-                outGroup.appendChild(newSubTask)
+                newForm.innerHTML = '<div class="b" style="display: inline-block;">' + '<div class="flex-row border border-secondary" id="formZ' + ids[i] + '">' + '<span>' + forms[i] + '</span>' + '<button id="ShowTaskGrInForm' + ids[i] + '" onclick="OnShowTaskGrInForm(' + ids[i] + ',\'' + forms[i] + '\') "> ShowTaskGr </button>' + "</div > " + '</div>'
+                outputGroup.appendChild(newForm);
             }
-        }
-        function onDeleteSubtaskButtonClick(s, f) {
-            fetch("/deleteSubTask",
-                {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-
-                    },
-                    body: JSON.stringify({ Id: s, tableName: f })
-
-                });
-            Clear("subtaskContext")
-        }
-
-        function onChangeSubtaskTitleButtonClick(s, f, tableName) {
-            var newSubtask = document.getElementById("subChange")
-            newSubtask.innerHTML = '<span class="input-group-text" id="input-group-text">Изменить название подзадания:</span><textarea id="subTitleChangeInput" class="form-control"></textarea>' + '<button style="color:black" class="btn btn-primary" id="btn-primary" onclick="ChangeSubtaskTitle(' + s + ',\'' + f + '\'' + ', \'' + tableName + '\')">ChangeTitle' + '</button>'+'<button class="btn btn-secondary" id="btn-primary" onclick="Clear(\''+"subChange"+'\')">Clear' + '</button>'
-        }
-        function onChangeSubtaskTextButtonClick(s, f, tableName) {
-            var newSubtask = document.getElementById("subChange")
-            newSubtask.innerHTML = '<span class="input-group-text" id="input-group-text">Изменить название подзадания:</span><textarea id="subTextChangeInput" class="form-control"></textarea>' + '<button style="color:black" class="btn btn-primary" id="btn-primary" onclick="ChangeSubtaskText(' + s + ',\'' + f + '\'' + ', \'' + tableName + '\')">ChangeText' + '</button>'+'<button class="btn btn-secondary" id="btn-primary" onclick="Clear(\''+"subChange"+'\')">Clear' + '</button>'
-        }
-        function onChangeSubtaskAnswerButtonClick(s, f, tableName) {
-            var newSubtask = document.getElementById("subChange")
-            newSubtask.innerHTML = '<span class="input-group-text" id="input-group-text">Изменить название подзадания:</span><textarea id="subAnswerChangeInput" class="form-control"></textarea>' + '<button style="color:black" class="btn btn-primary" id="btn-primary" onclick="ChangeSubtaskAnswer(' + s + ',\'' + f + '\'' + ', \'' + tableName + '\')">ChangeText' + '</button>'+'<button class="btn btn-secondary" id="btn-primary" onclick="Clear(\''+"subChange"+'\')">Clear' + '</button>'
-        }
-
-
-        function ChangeSubtaskTitle(s, f, tableName) {
-            var title2 = document.getElementById("subTitleChangeInput").value;
-            fetch("/changeTaskTitle",
-                {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-
-                    },
-                    body: JSON.stringify({ id: s, title: f, newTitle: title2, tableName: tableName })
-
-                });
-            Clear("subtaskContext")
-        }
-        function ChangeSubtaskText(s, f, tableName) {
-            var title2 = document.getElementById("subTextChangeInput").value;
-            fetch("/changeTaskText",
-                {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-
-                    },
-                    body: JSON.stringify({ id: s, text: f, newText: title2, tableName: tableName })
-
-                });
-            Clear("subtaskContext")
-        }
-
-        function ChangeSubtaskAnswer(s, f, tableName) {
-            var title2 = document.getElementById("subAnswerChangeInput").value;
-            fetch("/changeTaskAnswer",
-                {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-
-                    },
-                    body: JSON.stringify({ id: s, answer: f, newAnswer: title2, tableName: tableName })
-
-                });
-            Clear("subtaskContext")
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>

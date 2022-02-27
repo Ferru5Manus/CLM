@@ -12,6 +12,6 @@ namespace SchoolDatabaseRepository
         List<string> GetAllForms();
         List<string> GetAllIds();
         void RemoveForm(FormDto forms);
-        void ChangeFormText(FormDto forms);
+        List<string> GetForms(FormDto forms);
     }
 }

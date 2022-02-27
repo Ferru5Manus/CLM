@@ -11,15 +11,8 @@ namespace SchoolDatabaseRepository
 {
     public class FormsDatabaseRepository : IFormsRepository
     {
-        public void ChangeFormText(FormDto forms)
-        {
-            using (IDbConnection db = new MySqlConnection("Server=127.0.0.1;Database=clm;Uid=root;Pwd=root;"))
-            {
-                string sqlQuery1 = "UPDATE forms SET FormString = @FormString WHERE id LIKE @Id; ";
-
-                int rowsAffected = db.Execute(sqlQuery1, forms);
-            }
-        }
+       
+        
 
      
 
@@ -42,6 +35,17 @@ namespace SchoolDatabaseRepository
             {
                 var result = cnx.Query<FormDto>("SELECT * FROM forms").ToList();
                 lst = result.Select(forms => forms.Id.ToString()).ToList();
+            }
+
+            return lst;
+        }
+        public List<string> GetForms(FormDto forms)
+        {
+            List<string> lst = new List<string>();
+            using (MySqlConnection cnx = new MySqlConnection("Server = 127.0.0.1; Database = clm; Uid = root; Pwd = root;"))
+            {
+                var result = cnx.Query<FormDto>("SELECT * FROM forms where Id = @Id", new { forms.Id }).ToList();
+                lst = result.Select(forms => forms.FormString.ToString()).ToList();
             }
 
             return lst;

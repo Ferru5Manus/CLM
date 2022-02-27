@@ -1,6 +1,7 @@
 ﻿using SchoolDatabaseRepository;
 using SimpleWebApp.Repository;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,11 +10,20 @@ namespace SchoolSite100._0
 {
     public class FormsManager
     {
+        private static string path = @"C:\Tasks";
         FormsDatabaseRepository repository = new FormsDatabaseRepository();
-        public void AddForm(string formString)
+        public bool AddForm(string formString)
         {
-            repository.SaveForms(new FormDto() { FormString = formString });
-
+            if (!IsFormExists(formString))
+            {
+                repository.SaveForms(new FormDto() { FormString = formString });
+                CreateDirectory(formString).GetAwaiter();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public List<string> GetForms()
@@ -31,16 +41,108 @@ namespace SchoolSite100._0
 
             return s;
         }
-
-        public void RemoveForm(int id)
+        public bool IsFormExists(string formString)
         {
+            List<string> s = repository.GetAllForms();
+            foreach (var item in s)
+            {
+                if (formString == item)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool RemoveForm(int id)
+        {
+            
+            RemoveFormFolder(repository.GetForms(new FormDto() { Id = id })[0]).GetAwaiter();
             repository.RemoveForm(new FormDto() { Id = id });
+            return true;
         }
         
 
-        public void ChangeForm(string FormString, int id)
+        
+        public async Task CreateDirectory(string FormString)
         {
-            repository.ChangeFormText(new FormDto() { FormString = FormString, Id = id });
+            DirectoryInfo newTaskGroup = new DirectoryInfo(path);
+            if (!newTaskGroup.Exists)
+            {
+                newTaskGroup.Create();
+            }
+            try
+            {
+                using (StreamWriter sw = new StreamWriter($"{path}/FormsInfo.txt", true, System.Text.Encoding.Default))
+                {
+                    try
+                    {   
+                        
+                        Directory.CreateDirectory($"{path}/{FormString}");
+                        await sw.WriteLineAsync(FormString);
+                        sw.Close();
+                        
+                    }
+                    catch (Exception)
+                    {
+                        Directory.CreateDirectory($"{path}/{FormString}");                        
+                        await sw.WriteLineAsync(FormString);
+                        sw.Close();                    
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+        public async Task RemoveFormFolder(string FormString)
+        {
+            try
+            {
+                DirectoryInfo dirInfo = new DirectoryInfo($"{path}/{FormString}");
+
+                foreach (FileInfo file in dirInfo.GetFiles())
+                {
+                    file.Delete();
+                }
+                try
+                {
+                    var myList = File.ReadAllLines($"{path}/FormsInfo.txt");
+                    using (StreamWriter sw = new StreamWriter($"{path}/FormsInfo.txt", false, System.Text.Encoding.Default))
+                    {
+                        foreach (var item in myList)
+                        {
+
+
+                            if (item != FormString)
+                            {
+                                await sw.WriteLineAsync(item);
+
+                            }
+
+
+                        }
+
+                        sw.Close();
+                    }
+                    Directory.Delete($"{path}/{FormString}");
+                }
+                catch (Exception)
+                {
+                    Directory.Delete($"{path}/{FormString}");
+                }
+            }
+            catch(Exception)
+            {
+
+                throw;
+                
+            }
+           
+
+            
+            
         }
     }
 }

@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolSite100.0", "SchoolSite100.0\SchoolSite100.0.csproj", "{2D964009-3567-4749-9E72-676F27088C6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolDatabaseRepository", "SchoolDatabaseRepository\SchoolDatabaseRepository.csproj", "{DB2AEA3F-1354-4306-9AD8-38B4F511EC12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolDatabaseRepository", "SchoolDatabaseRepository\SchoolDatabaseRepository.csproj", "{DB2AEA3F-1354-4306-9AD8-38B4F511EC12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
