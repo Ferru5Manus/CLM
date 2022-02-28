@@ -120,11 +120,11 @@
                 var newTaskGr = document.createElement("div");
                 newTaskGr.id = ids[i];
 
-                newTaskGr.innerHTML = '<div class="b" style="display: inline-block;">' + '<div class="flex-row border border-secondary" id="taskGrZ' + ids[i] + '">' + '<span>Task group: ' + names[i] + '</span>' + '<button id="ChangeTaskGrContent' + ids[i] + '" onclick="OnChangeTaskGrContent(' + ids[i] + ',\'' + formName + '\') "> Change task group content </button>' + '<button id="DeleteTaskGr' + ids[i] + '" onclick="OnDeleteTaskGr(' + ids[i] + ',\'' + formName + '\') "> Delete task group </button>'+'<button id="ShowResults' + ids[i] + '" onclick="OnShowResultsTaskGr(' + ids[i] + ',\'' + formName + '\') ">Show results</button>'+ "</div > " + '</div>'
+                newTaskGr.innerHTML = '<div class="b" style="display: inline-block;">' + '<div class="flex-row border border-secondary" id="taskGrZ' + ids[i] + '">' + '<span>Task group: ' + names[i] + '</span>' + '<button id="ChangeTaskGrContent' + ids[i] + '" onclick="OnChangeTaskGrContent(' + ids[i] + ',\'' + formName + '\') "> Change task group content </button>' + '<button id="DeleteTaskGr' + ids[i] + '" onclick="OnDeleteTaskGr(' + ids[i] + ',\'' + formName + '\') "> Delete task group </button>'+'<button id="ShowResults' + ids[i] + '" onclick="OnShowResultsTaskGr(' + ids[i] + ',\'' + formName + '\''+',\'' + names[i] + '\') ">Show results</button>'+ "</div > " + '</div>'
                 outputGroup.appendChild(newTaskGr);
             }
         }
-        async function OnShowResultsTaskGr(taskGrId,formString){
+        async function OnShowResultsTaskGr(taskGrId,formString,name){
             var response = await fetch("/getResultsInTaskGr", {
                 method: 'POST',
                 headers: {
@@ -144,7 +144,7 @@
             var outputGroupCont=document.getElementById('resultsContent')
             outputGroupCont.innerHTML=""
             var tools = document.createElement("div")
-            tools.innerHTML='<span>Results: </span><button onclick="Clear(\'resultsContent\')">Clear results</button>'
+            tools.innerHTML='<span>'+name+' results: </span><button onclick="Clear(\'resultsContent\')">Clear results</button>'
             outputGroupCont.appendChild(tools)
             var results = JSON.parse(await response.text())
             var logins = JSON.parse(await response1.text())
