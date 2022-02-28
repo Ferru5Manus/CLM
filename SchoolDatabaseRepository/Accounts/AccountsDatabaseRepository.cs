@@ -222,6 +222,17 @@ namespace SchoolDatabaseRepository
 
             return lst;
         }
+
+        public void UpdateForms(AccountsDto accounts)
+        {
+            using (IDbConnection db = new MySqlConnection("Server=127.0.0.1;Database=clm;Uid=root;Pwd=root;"))
+            {
+
+                string sqlQuery1 = "UPDATE users SET form = \"\" WHERE form LIKE @form; ";
+
+                int rowsAffected = db.Execute(sqlQuery1, accounts);
+            }
+        }
     }
  }
 

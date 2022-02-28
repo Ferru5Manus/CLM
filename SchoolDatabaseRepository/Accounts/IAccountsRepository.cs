@@ -25,6 +25,6 @@ namespace SchoolDatabaseRepository
         List<string> GetRoleByLogin(AccountsDto accounts);
         List<string> GetLoginsByForm(AccountsDto accounts);
         List<string> GetFormByLogin(AccountsDto accounts);
-
+        void UpdateForms(AccountsDto accounts);
     }
 }

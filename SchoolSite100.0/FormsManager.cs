@@ -59,9 +59,10 @@ namespace SchoolSite100._0
         {
             
             RemoveFormFolder(repository.GetForms(new FormDto() { Id = id })[0]).GetAwaiter();
-           
-            
+
+            acc.UpdateForms(new AccountsDto { form = repository.GetForms(new FormDto() { Id = id })[0] });
             repository.RemoveForm(new FormDto() { Id = id });
+            
             
             return true;
         }
