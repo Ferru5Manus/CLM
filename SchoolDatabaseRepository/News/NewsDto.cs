@@ -1,4 +1,4 @@
-﻿namespace SimpleWebApp.Repository
+﻿namespace SchoolDatabaseRepository
 {
 	public class NewsDto
 	{

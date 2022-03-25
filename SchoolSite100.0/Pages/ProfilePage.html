@@ -1,0 +1,378 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Profile</title>
+    <style>
+        button {
+            color: rgb(33, 37, 41);
+            background-color: rgb(222,222,222);
+            position: static;
+            top: 10%;
+            border-radius: 10px;
+            transition: 0.5s;
+        }
+
+
+            button:hover {
+                color: rgb(222,222,222);
+                background-color: rgba(33, 37, 41,0.7);
+            }
+
+        .main {
+            border: 2px;
+            border-radius: 10px;
+            position: absolute;
+            right: 1%;
+            height: auto;
+            padding: 1%;
+            margin: 1%;
+            color: rgb(33, 37, 41);
+            background-color: rgb(222,222,222);
+            font-family: 'Calibri';
+            font-style: italic;
+            font-size: x-large;
+            text-align: center;
+        }
+
+        input {
+            border-color: rgb(222,222,222);
+            color: rgb(222,222,222);
+            margin: 0.5%;
+            outline: none;
+            padding: 0.2%;
+            color: rgb(33, 37, 41);
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+            input:hover {
+                border-color: rgb(153, 153, 153);
+            }
+
+        body {
+            box-shadow: none;
+            background-color: white;
+        }
+
+        a {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body onload="WhoIs()">
+    <style>
+        /* Image Designing Propoerties */
+        .thumb {
+            height: 75px;
+            border: 1px solid #000;
+            margin: 10px 5px 0 0;
+        }
+
+        div {
+            text-overflow: ellipsis;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .b {
+            background-color: lightgray;
+            width: 450px;
+            margin-top: 10px;
+        }
+    </style>
+    <body onload="WhoIs()">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" id="mainCont1" href="#">Profile</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item" >
+                            <a class="nav-link" aria-current="page" href="/MainPage">News</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/taskPage">Tasks</a>
+                        </li>
+                        <li class="nav-item" id="nav0">
+
+                        </li>
+                        <li class="nav-item" id="nav1">
+
+                        </li>
+                        <li class="nav-item" id="nav2">
+
+                        </li>
+                        <li class="nav-item" id="nav3">
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid" style="display: inline-block; text-align: center;">
+            <div class="flex-row border border-secondary" id="login"></div>
+            <div class="flex-row border border-secondary" id="role"></div>
+            <div class="flex-row border border-secondary" id="form"></div>
+            <div class="flex-row border border-secondary" id="email"></div>
+            <div class="flex-row border border-secondary" id="password"></div>
+        </div>
+    </body>
+    <script>
+        async function OnChangeLoginClick(login){
+            var outputGroup = document.getElementById('login')
+            var inp = document.createElement('input')
+            inp.id='loginInput'
+           
+            var span1=document.createElement('span')
+            span1.textContent="New login"
+            var span2=document.createElement('span')
+            span2.textContent="Password"
+            var but1 = document.getElementById('loginChanger')
+            but1.style.visibility='hidden'
+            var inp1 = document.createElement('input')
+            inp1.id='passwordInput'
+            inp1.type='password'
+            var logChange = document.createElement('button')
+            logChange.id='loginChangeButton'
+            logChange.setAttribute('onclick', 'ChangeLogin(\'' + login + '\')');
+            logChange.textContent="✏"
+            
+            outputGroup.appendChild(span1)
+            outputGroup.appendChild(inp)
+            outputGroup.appendChild(span2)
+            outputGroup.appendChild(inp1)
+            outputGroup.appendChild(logChange)
+        }
+        async function ChangeLogin(login)
+        {
+            var newLogin = document.getElementById('loginInput').value
+            var password = document.getElementById('passwordInput').value
+            var response = await fetch("/regCheck",
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ emailString: null, loginString: login, passwordString: password })
+            });
+            IsRegistered = JSON.parse(await response.text())
+            if (IsRegistered == false) {
+                alert("Error incorrect password.")
+                WhoIs();
+            }
+            else{
+                var resp = await fetch("/changeLogin",{
+                 method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({loginString : login, loginString2 : newLogin})
+                });
+                var IsChanged=JSON.parse(await resp.text())
+                if(IsChanged==true){
+                    await fetch("/login", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+
+                        },
+                        body: JSON.stringify({ loginString: newLogin, passwordString: password })
+                    });
+                    WhoIs();
+                }
+                else{
+                    alert('This login is already taken')
+                    WhoIs();
+                }
+            }
+                
+            
+        }
+         async function OnChangeEmailClick(login){
+            var outputGroup = document.getElementById('email')
+            var inp = document.createElement('input')
+            inp.id='emailInput'
+           
+            var span1=document.createElement('span')
+            span1.textContent="New email"
+            var span2=document.createElement('span')
+            span2.textContent="Password"
+            var but1 = document.getElementById('emailChanger')
+            but1.style.visibility='hidden'
+            var inp1 = document.createElement('input')
+            inp1.id='passwordInput1'
+            inp1.type='password'
+            var logChange = document.createElement('button')
+            logChange.id='emailChangeButton'
+            logChange.setAttribute('onclick', 'ChangeEmail(\'' + login + '\')');
+            logChange.textContent="✏"
+            
+            outputGroup.appendChild(span1)
+            outputGroup.appendChild(inp)
+            outputGroup.appendChild(span2)
+            outputGroup.appendChild(inp1)
+            outputGroup.appendChild(logChange)
+        }
+        async function ChangeEmail(login)
+        {
+            var email = document.getElementById('emailInput').value
+            var password = document.getElementById('passwordInput1').value
+            var response = await fetch("/regCheck",
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ emailString: null, loginString: login, passwordString: password })
+            });
+            IsRegistered = JSON.parse(await response.text())
+            if (IsRegistered == false) {
+                alert("Error incorrect password.")
+                WhoIs();
+            }
+            else{
+                var resp = await fetch("/changeEmail",{
+                 method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({loginString : login, emailString:email})
+                });
+                IsChanged = JSON.parse(await resp.text())
+                if (IsChanged==true){
+                    await fetch("/login", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+
+                        },
+                        body: JSON.stringify({ loginString: login, passwordString: password })
+                    });
+                    WhoIs();
+                }
+                else{
+                    alert('This email is already taken')
+                    WhoIs();
+                }
+            }
+                
+            
+        }
+        async function OnShowPasswordClick(login){
+            var outputGroup = document.getElementById('password')
+            var inp = document.createElement('input')
+            inp.id='passwordInput2'
+            inp.type='password'
+            var span1=document.createElement('span')
+            span1.textContent="Current password"
+            var span2=document.createElement('span')
+            span2.textContent="New password"
+            var but1 = document.getElementById('PasswordChangeBut')
+            but1.style.visibility='hidden'
+            var inp1 = document.createElement('input')
+            inp1.id='passwordInput3'
+            inp1.type='password'
+            var logChange = document.createElement('button')
+            logChange.id='emailChangeButton'
+            logChange.setAttribute('onclick', 'ChangePassword(\'' + login + '\')');
+            logChange.textContent="✏"
+            var passwordSpan = document.getElementById('passwordSpan')
+            passwordSpan.innerHTML='<span id="passwordSpan">Password: </span>'
+            outputGroup.appendChild(span1)
+            outputGroup.appendChild(inp)
+            outputGroup.appendChild(span2)
+            outputGroup.appendChild(inp1)
+            outputGroup.appendChild(logChange)
+        }
+        async function ChangePassword(login)
+        {
+            var password = document.getElementById('passwordInput2').value
+            var newPassword = document.getElementById('passwordInput3').value
+            var response = await fetch("/regCheck",
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ emailString: null, loginString: login, passwordString: password })
+            });
+            IsRegistered = JSON.parse(await response.text())
+            if (IsRegistered == false) {
+                alert("Error incorrect password.")
+                WhoIs();
+            }
+            else{
+                await fetch("/changePassword",{
+                 method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({loginString : login, passwordString : newPassword})
+                });
+                    await fetch("/login", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+
+                        },
+                        body: JSON.stringify({ loginString: login, passwordString: newPassword })
+                    });
+                    WhoIs();
+                
+            }
+                
+            
+        }
+        async function WhoIs() {
+            var response = await fetch("/Whois",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+            var acc = JSON.parse(await response.text())
+            var loginDiv = document.getElementById("login");
+            loginDiv.innerHTML = "<span>Login: </span>"+"<span>" + acc[0] + "</span>"+'<button id="loginChanger" onclick="OnChangeLoginClick(\'' + acc[0] + '\')">Change Login</button>'
+
+            var roleDiv = document.getElementById("role");
+            
+            roleDiv.innerHTML = "<span>Role: </span>"+"<span>" + acc[2] + "</span>"
+            
+            var formDiv = document.getElementById("form")
+            formDiv.innerHTML = "<span>Form: </span>"+"<span>" + acc[3] + "</span>"
+
+            var emailDiv = document.getElementById("email")
+            emailDiv.innerHTML = "<span>Email: </span>"+"<span>" + acc[1] + "</span>" +'<button id ="emailChanger" onclick="OnChangeEmailClick(\'' + acc[0] + '\')">Change Email</button>'  
+            var passwordDiv = document.getElementById("password") 
+            passwordDiv.innerHTML='<span id="passwordSpan">Password: ***************</span><button id="PasswordChangeBut" onclick="OnShowPasswordClick(\'' + acc[0] + '\')">Change Password</button>'
+            if (acc[2] == "Admin") {
+            
+            var nav1 = document.getElementById("nav1")
+            var nav2 = document.getElementById("nav2")
+            var nav3 = document.getElementById("nav3")
+            
+            nav1.innerHTML = '<a class="nav-link" aria-current="page" href="/taskAdmPage">TaskAdministration</a>'
+            nav2.innerHTML = '<a class="nav-link" aria-current="page" href="/adminMainPage">NewsAdministration</a>'
+            nav3.innerHTML = '<a class="nav-link" aria-current="page" href="/adminUsersPage">UsersAndFormsAdministration</a>'
+        }
+        if (acc[2] == "Teacher") {
+            
+            var nav1 = document.getElementById("nav1")
+            var nav2 = document.getElementById("nav2")
+            
+            nav1.innerHTML = '<a class="nav-link" aria-current="page" href="/taskAdmPage">TaskAdministration</a>'
+            nav2.innerHTML = '<a class="nav-link" aria-current="page" href="/adminMainPage">NewsAdministration</a>'
+            
+        }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 ﻿using SchoolDatabaseRepository;
-using SimpleWebApp.Repository;
+
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -35,7 +35,10 @@ namespace SchoolSite100._0
 
             return s;
         }
-
+        public string GetForm(int id)
+        {
+            return repository.GetForms(new FormDto { Id = id })[0];
+        }
         public List<string> GetFormsId()
         {
 
@@ -59,10 +62,10 @@ namespace SchoolSite100._0
         {
             
             RemoveFormFolder(repository.GetForms(new FormDto() { Id = id })[0]).GetAwaiter();
-
+            List<string> s = repository.GetForms(new FormDto() { Id = id });
             acc.UpdateForms(new AccountsDto { form = repository.GetForms(new FormDto() { Id = id })[0] });
             repository.RemoveForm(new FormDto() { Id = id });
-            
+            res.RemoveResultByForm(new ResultDto { formString = s[0] });
             
             return true;
         }

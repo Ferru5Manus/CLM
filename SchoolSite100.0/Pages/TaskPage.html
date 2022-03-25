@@ -91,6 +91,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item" id='nav0'>
+
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/mainPage">News</a>
                     </li>
@@ -163,7 +166,7 @@
                     }
                 });
             var acc = JSON.parse(await response.text())
-            if (acc == "Admin") {
+            if (acc[2] == "Admin") {
                 var nav1 = document.getElementById("1")
                 var nav2 = document.getElementById("2")
                 var nav3 = document.getElementById("3")
@@ -171,7 +174,7 @@
                 nav2.innerHTML = '<a class="nav-link" aria-current="page" href="/adminMainPage">NewsAdministration</a>'
                 nav3.innerHTML = '<a class="nav-link" aria-current="page" href="/adminUsersPage">UsersAndFormsAdministration</a>'
             }
-            if (acc == "Teacher") {
+            if (acc[2] == "Teacher") {
                 var nav1 = document.getElementById("1")
                 var nav2 = document.getElementById("2")
 

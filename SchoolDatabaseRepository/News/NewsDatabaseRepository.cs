@@ -6,7 +6,7 @@ using System.Linq;
 using Dapper;
 using MySql.Data.MySqlClient;
 
-namespace SimpleWebApp.Repository
+namespace SchoolDatabaseRepository
 {
 	public class NewsDatabaseRepository : INewsRepository
 	{
@@ -45,6 +45,23 @@ namespace SimpleWebApp.Repository
             }
 
             return lst;
+        }
+
+       
+
+        public List<string> GetTextById(NewsDto news)
+        {
+            List<string> lst = new List<string>();
+            using (MySqlConnection cnx = new MySqlConnection("Server = 127.0.0.1; Database = clm; Uid = root; Pwd = root;"))
+            {
+
+                var result = cnx.Query<NewsDto>("select * from news where id=@id", new { news.Id }).ToList();
+                lst = result.Select(account => account.TextString.ToString()).ToList();
+                return lst;
+
+
+
+            }
         }
 
         public List<string> GetAllIds()
@@ -88,6 +105,36 @@ namespace SimpleWebApp.Repository
                 string sqlQuery1 = "UPDATE news SET TextString = @newTextString WHERE id LIKE @id; ";
 
                 int rowsAffected = db.Execute(sqlQuery1, news);
+            }
+        }
+
+        public List<string> GetTitleById(NewsDto news)
+        {
+            List<string> lst = new List<string>();
+            using (MySqlConnection cnx = new MySqlConnection("Server = 127.0.0.1; Database = clm; Uid = root; Pwd = root;"))
+            {
+                
+                    var result = cnx.Query<NewsDto>("select * from news where id=@id", new { news.Id }).ToList();
+                    lst = result.Select(account => account.TitleString.ToString()).ToList();
+                    return lst;
+                
+                
+
+            }
+        }
+
+        public List<string> GetNewsByTitle(NewsDto news)
+        {
+            List<string> lst = new List<string>();
+            using (MySqlConnection cnx = new MySqlConnection("Server = 127.0.0.1; Database = clm; Uid = root; Pwd = root;"))
+            {
+
+                var result = cnx.Query<NewsDto>("select * from news where title=@title", new { news.TitleString }).ToList();
+                lst = result.Select(account => account.Id.ToString()).ToList();
+                return lst;
+
+
+
             }
         }
     }

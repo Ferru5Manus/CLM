@@ -117,7 +117,7 @@ namespace SchoolSite100._0
                 return false;
             }
         }
-        public string GetRole(string login)
+        public string GetRoleByLogin(string login)
         {
             if(AccountDto.GetRoleByLogin(new AccountsDto { login = login }) != null)
             {
@@ -126,7 +126,7 @@ namespace SchoolSite100._0
             }
             return "";
         }
-        
+
 
         public List<string> GetUserIds()
         {
@@ -164,7 +164,12 @@ namespace SchoolSite100._0
             i = AccountDto.GetUserForms();
             return i;
         }
-
+        public string GetEmailByLogin(string login)
+        {
+            List<string> i = new List<string>();
+            i = AccountDto.GetEmailByLogin(new AccountsDto() { login = login });
+            return i[0];
+        }
        
        
         public bool UpdateForm(int id, string form)
@@ -191,11 +196,57 @@ namespace SchoolSite100._0
             }
             return false;
         }
+        public bool UpdateLogin(string login, string newLogin)
+        {
+            List<string> lst = AccountDto.GetUserLogins();
+            foreach (var item in lst)
+            {
+                if (newLogin == item)
+                {
+                    return false;
+                }
+            }
+            int id = Convert.ToInt32(AccountDto.GetUserByLogin(new AccountsDto() { login = login })[0]);
+            AccountDto.UpdateLogin(new AccountsDto() { id = id, login = newLogin}) ;
+            return true;
+        }
+        public bool UpdateEmail(string login, string email)
+        {
+            List<string> lst = AccountDto.GetUserEmails();
+            foreach (var item in lst)
+            {
+                if (email == item)
+                {
+                    return false;
+                }
+            }
+            int id = Convert.ToInt32(AccountDto.GetUserByLogin(new AccountsDto() { login = login })[0]);
+            AccountDto.UpdateEmail(new AccountsDto() { id = id, email = email });
+            return true;
+        }
+        public void UpdatePassword(string login, string password)
+        {
+            int id = Convert.ToInt32(AccountDto.GetUserByLogin(new AccountsDto() { login = login })[0]);
+            AccountDto.UpdatePassword(new AccountsDto() { id = id, password=EncryptPlainTextToCipherText(password) });
+        }
+        private Random _random = new Random(Environment.TickCount);
+
+        public string RandomString(int length)
+        {
+            string chars = "0123456789abcdefghijklmnopqrstuvwxyz";
+            StringBuilder builder = new StringBuilder(length);
+
+            for (int i = 0; i < length; ++i)
+                builder.Append(chars[_random.Next(chars.Length)]);
+
+            return builder.ToString();
+        }
         public void SendPassword(string email)
         {
             MailAddress from = new MailAddress("cmspassreq@gmail.com", "Lms");
             string login = AccountDto.GetLoginByEmail(new AccountsDto { email = email })[0];
-            string password = DecryptCipherTextToPlainText(AccountDto.GetPasswordByEmail(new AccountsDto { email = email })[0]);
+            string password = RandomString(8);
+            UpdatePassword(login, password);
             //REDO
             
             // кому отправляем
@@ -247,31 +298,7 @@ namespace SchoolSite100._0
         }
 
         //This method is used to convert the Encrypted/Un-Readable Text back to readable  format.
-        public static string DecryptCipherTextToPlainText(string CipherText)
-        {
-            byte[] toEncryptArray = Convert.FromBase64String(CipherText);
-            MD5CryptoServiceProvider objMD5CryptoService = new MD5CryptoServiceProvider();
-
-            //Gettting the bytes from the Security Key and Passing it to compute the Corresponding Hash Value.
-            byte[] securityKeyArray = objMD5CryptoService.ComputeHash(UTF8Encoding.UTF8.GetBytes(SecurityKey));
-            objMD5CryptoService.Clear();
-
-            var objTripleDESCryptoService = new TripleDESCryptoServiceProvider();
-            //Assigning the Security key to the TripleDES Service Provider.
-            objTripleDESCryptoService.Key = securityKeyArray;
-            //Mode of the Crypto service is Electronic Code Book.
-            objTripleDESCryptoService.Mode = CipherMode.ECB;
-            //Padding Mode is PKCS7 if there is any extra byte is added.
-            objTripleDESCryptoService.Padding = PaddingMode.PKCS7;
-
-            var objCrytpoTransform = objTripleDESCryptoService.CreateDecryptor();
-            //Transform the bytes array to resultArray
-            byte[] resultArray = objCrytpoTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
-            objTripleDESCryptoService.Clear();
-
-            //Convert and return the decrypted data/byte into string format.
-            return UTF8Encoding.UTF8.GetString(resultArray);
-        }
+      
     }
        
     

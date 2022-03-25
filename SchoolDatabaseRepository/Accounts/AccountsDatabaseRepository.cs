@@ -117,7 +117,7 @@ namespace SchoolDatabaseRepository
             using (MySqlConnection cnx = new MySqlConnection("Server = 127.0.0.1; Database = clm; Uid = root; Pwd = root;"))
             {
                 var result = cnx.Query<AccountsDto>("select * from users where email = @email", new { accounts.email }).ToList();
-                lst = result.Select(news => news.id.ToString()).ToList();
+                lst = result.Select(news => news.login.ToString()).ToList();
             }
 
 
@@ -222,7 +222,18 @@ namespace SchoolDatabaseRepository
 
             return lst;
         }
+        public List<string> GetEmailByLogin(AccountsDto accounts)
+        {
+            List<string> lst = new List<string>();
+            using (MySqlConnection cnx = new MySqlConnection("Server = 127.0.0.1; Database = clm; Uid = root; Pwd = root;"))
+            {
+                var result = cnx.Query<AccountsDto>("select * from users where login = @login", new { accounts.login }).ToList();
+                lst = result.Select(news => news.email.ToString()).ToList();
+            }
 
+
+            return lst;
+        }
         public void UpdateForms(AccountsDto accounts)
         {
             using (IDbConnection db = new MySqlConnection("Server=127.0.0.1;Database=clm;Uid=root;Pwd=root;"))
@@ -231,6 +242,39 @@ namespace SchoolDatabaseRepository
                 string sqlQuery1 = "UPDATE users SET form = \"\" WHERE form LIKE @form; ";
 
                 int rowsAffected = db.Execute(sqlQuery1, accounts);
+            }
+        }
+
+        public void UpdateLogin(AccountsDto account)
+        {
+            using (IDbConnection db = new MySqlConnection("Server=127.0.0.1;Database=clm;Uid=root;Pwd=root;"))
+            {
+
+                string sqlQuery1 = "UPDATE users SET login = @login WHERE id LIKE @id; ";
+
+                int rowsAffected = db.Execute(sqlQuery1, account);
+            }
+        }
+
+        public void UpdateEmail(AccountsDto account)
+        {
+            using (IDbConnection db = new MySqlConnection("Server=127.0.0.1;Database=clm;Uid=root;Pwd=root;"))
+            {
+
+                string sqlQuery1 = "UPDATE users SET email = @email WHERE id LIKE @id; ";
+
+                int rowsAffected = db.Execute(sqlQuery1, account);
+            }
+        }
+
+        public void UpdatePassword(AccountsDto account)
+        {
+            using (IDbConnection db = new MySqlConnection("Server=127.0.0.1;Database=clm;Uid=root;Pwd=root;"))
+            {
+
+                string sqlQuery1 = "UPDATE users SET password = @password WHERE id LIKE @id; ";
+
+                int rowsAffected = db.Execute(sqlQuery1, account);
             }
         }
     }

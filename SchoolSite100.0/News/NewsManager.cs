@@ -1,4 +1,4 @@
-﻿using SimpleWebApp.Repository;
+﻿using SchoolDatabaseRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +10,32 @@ namespace SchoolSite100._0
     {
        
         NewsDatabaseRepository repository = new NewsDatabaseRepository();
-        public void AddNews(string Title, string Text)
+        public bool AddNews(string Title, string Text)
         {
-            repository.SaveNew(new NewsDto() { TitleString=Title,TextString=Text});
+            if(!CheckNews(Title, Text))
+            {
+                repository.SaveNew(new NewsDto() { TitleString = Title, TextString = Text });
+                return true;
+            }
+            else
+            {
+                return false;
+            }
             
         }
-
+        public bool CheckNews(string Title, string Text)
+        {
+            List<string> list = GetNewsTit();
+            
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i]==Title)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public List<string> GetNewsTit()
         {
 
@@ -44,16 +64,40 @@ namespace SchoolSite100._0
         {
             repository.RemoveNew(new NewsDto() { Id=id});
         }
-        public void ChangeTitle(string newTitle,int id)
+        public bool ChangeTitle(string newTitle,int id)
         {
-            repository.ChangeNewTitle(new NewsDto() { newTitleString = newTitle, Id=id});
+            if (!CheckNews(newTitle,GetTextById(id)))
+            {
+                repository.ChangeNewTitle(new NewsDto() { newTitleString = newTitle, Id = id });
+                return true;
+            }
+            else
+            {
+                return false;
+            }
             
 
         }
-
-        public void ChangeText(string newText,int id)
+        public string GetTitleById(int id)
         {
-            repository.ChangeNewText(new NewsDto() {  newTextString=newText,Id=id});
+            return repository.GetTitleById(new NewsDto() { Id = id })[0];
+        }
+        public string GetTextById(int id)
+        {
+            return repository.GetTextById(new NewsDto() { Id = id })[0];
+        }
+        public bool ChangeText(string newText,int id)
+        {
+            if (!CheckNews(GetTitleById(id), newText))
+            {
+                repository.ChangeNewText(new NewsDto() { newTextString = newText, Id = id });
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+           
         }
     }
 }

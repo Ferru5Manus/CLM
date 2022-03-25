@@ -4,6 +4,122 @@
     "C:\\CLM\\CLM\\SchoolSite100.0\\SchoolSite100.0.csproj": {}
   },
   "projects": {
+    "C:\\CLM\\CLM\\SchoolBot\\SchoolBot.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\CLM\\CLM\\SchoolBot\\SchoolBot.csproj",
+        "projectName": "SchoolBot",
+        "projectPath": "C:\\CLM\\CLM\\SchoolBot\\SchoolBot.csproj",
+        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
+        "outputPath": "C:\\CLM\\CLM\\SchoolBot\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj": {
+                "projectPath": "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "DSharpPlus": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "DSharpPlus.CommandsNext": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "DSharpPlus.Interactivity": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "DSharpPlus.Rest": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "DSharpPlus.VoiceNext": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "DSharpPlus.VoiceNext.Natives": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Discord.Net": {
+              "target": "Package",
+              "version": "[3.4.1, )"
+            },
+            "Discord.Net.Core": {
+              "target": "Package",
+              "version": "[3.4.1, )"
+            },
+            "Discord.Net.Labs.Core": {
+              "target": "Package",
+              "version": "[3.6.1, )"
+            },
+            "Discord.Net.Labs.Rest": {
+              "target": "Package",
+              "version": "[3.6.1, )"
+            },
+            "Discord.Net.Rest": {
+              "target": "Package",
+              "version": "[3.4.1, )"
+            },
+            "Discord.Net.WebSocket": {
+              "target": "Package",
+              "version": "[3.4.1, )"
+            },
+            "Discord.Net.Webhook": {
+              "target": "Package",
+              "version": "[3.4.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -14,23 +130,23 @@
         "outputPath": "C:\\CLM\\CLM\\SchoolDatabaseRepository\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
           "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net5.0"
+          "net6.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net5.0": {
-            "targetAlias": "net5.0",
+          "net6.0": {
+            "targetAlias": "net6.0",
             "projectReferences": {}
           }
         },
@@ -41,8 +157,8 @@
         }
       },
       "frameworks": {
-        "net5.0": {
-          "targetAlias": "net5.0",
+        "net6.0": {
+          "targetAlias": "net6.0",
           "dependencies": {
             "Dapper": {
               "target": "Package",
@@ -68,7 +184,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -82,24 +198,27 @@
         "outputPath": "C:\\CLM\\CLM\\SchoolSite100.0\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
           "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net5.0"
+          "net6.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net5.0": {
-            "targetAlias": "net5.0",
+          "net6.0": {
+            "targetAlias": "net6.0",
             "projectReferences": {
+              "C:\\CLM\\CLM\\SchoolBot\\SchoolBot.csproj": {
+                "projectPath": "C:\\CLM\\CLM\\SchoolBot\\SchoolBot.csproj"
+              },
               "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj": {
                 "projectPath": "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj"
               }
@@ -113,8 +232,8 @@
         }
       },
       "frameworks": {
-        "net5.0": {
-          "targetAlias": "net5.0",
+        "net6.0": {
+          "targetAlias": "net6.0",
           "dependencies": {
             "Dapper": {
               "target": "Package",
@@ -139,7 +258,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

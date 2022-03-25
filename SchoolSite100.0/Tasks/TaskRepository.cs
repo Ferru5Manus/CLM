@@ -145,7 +145,7 @@ namespace SchoolSite100._0
         public async Task AddTask(TaskGroupTemplate hw,TaskTemplate task,string FormString)
         {
 
-            string x = GetTaskGrName(hw.Id,FormString); ;
+            string x = GetTaskGrName(hw.Id,FormString); 
             
             
             

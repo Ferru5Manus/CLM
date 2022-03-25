@@ -3,7 +3,6 @@ C:\CLM\CLM\SchoolDatabaseRepository\bin\Debug\net5.0\SchoolDatabaseRepository.de
 C:\CLM\CLM\SchoolDatabaseRepository\bin\Debug\net5.0\SchoolDatabaseRepository.runtimeconfig.json
 C:\CLM\CLM\SchoolDatabaseRepository\bin\Debug\net5.0\SchoolDatabaseRepository.runtimeconfig.dev.json
 C:\CLM\CLM\SchoolDatabaseRepository\bin\Debug\net5.0\SchoolDatabaseRepository.dll
-C:\CLM\CLM\SchoolDatabaseRepository\bin\Debug\net5.0\ref\SchoolDatabaseRepository.dll
 C:\CLM\CLM\SchoolDatabaseRepository\bin\Debug\net5.0\SchoolDatabaseRepository.pdb
 C:\CLM\CLM\SchoolDatabaseRepository\bin\Debug\net5.0\BouncyCastle.Crypto.dll
 C:\CLM\CLM\SchoolDatabaseRepository\bin\Debug\net5.0\Dapper.dll
@@ -34,3 +33,5 @@ C:\CLM\CLM\SchoolDatabaseRepository\obj\Debug\net5.0\SchoolDatabaseRepository.dl
 C:\CLM\CLM\SchoolDatabaseRepository\obj\Debug\net5.0\ref\SchoolDatabaseRepository.dll
 C:\CLM\CLM\SchoolDatabaseRepository\obj\Debug\net5.0\SchoolDatabaseRepository.pdb
 C:\CLM\CLM\SchoolDatabaseRepository\obj\Debug\net5.0\SchoolDatabaseRepository.genruntimeconfig.cache
+C:\CLM\CLM\SchoolDatabaseRepository\obj\Debug\net5.0\SchoolDatabaseRepository.csproj.CopyComplete
+C:\CLM\CLM\SchoolDatabaseRepository\obj\Debug\net5.0\refint\SchoolDatabaseRepository.dll

@@ -5,69 +5,118 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <title>Password recovery</title>
 </head>
-<body style=" background-color:ghostwhite">
-    <div style="
-        background-color:ghostwhite;
-        color:black;
-        font-family:'Times New Roman';
-        font-size:15px;
-        text-align: center">
-        <br>
-        <div>
-            <h1>Password recovery</h1>
-        </div>
+<body>
+<style>
+        * {box-sizing: border-box}
+
+/* Add padding to containers */
+.container {
+  padding: 16px;
+}
+
+/* Full-width input fields */
+input[type=text], input[type=email] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=email]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Overwrite default styles of hr */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* Set a style for the submit/register button */
+.loginbtn {
+  background-color: blue;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.loginbtn:hover {
+  opacity:1;
+}
+
+/* Add a blue text color to links */
+a {
+  color: dodgerblue;
+}
+
+/* Set a grey background color and center the text of the "sign in" section */
+.signin {
+  background-color: #f1f1f1;
+  text-align: center;
+}
+    </style>
+        <div class="container">
+    <h1>Password recovery.</h1>
+    <p>Please fill in this form to recover your password.</p>
+    <hr>
+    <label for="psw"><b>Email</b></label>
+    <input type="email" placeholder="Enter Email" name="psw" id="emailInput" required>
+
+    <hr>
+    <div style="display: inline-block;">
+        <button type="submit" class="loginbtn" onclick="OnRecoveryClick()">Recover your password.</button>
+        <button type="submit" class="loginbtn" onclick="BackClick()">Sign Up</button>
+    
         
-        <div>
-            <span id="email">Email</span>
+    </div>
+<script>
+    async function OnRecoveryClick() {
+        var email = document.getElementById("emailInput").value
+        var response = await fetch("/regRecCheck",
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ emailString: email })
+            });
+        IsRegistered = JSON.parse(await response.text())
+        if (IsRegistered == false) {
+            alert("There is no such user.")
+        }
+        else {
+            response2 = await fetch("/prepareRecovery", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
 
-        </div>
-        <div>
-            <input id="emailInput" type="text"></input>
-        </div>
+                },
+                body: JSON.stringify({ emailString: email })
+            });
+            var outPut = document.getElementById("email")
 
-        <button onclick="BackClick()">Back</button>
-        <button id="recovery" onclick="OnRecoveryClick()">Forgot login/password</button>
-        <script>
-            async function OnRecoveryClick() {
-                var email = document.getElementById("emailInput").value
-                var response = await fetch("/regRecCheck",
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ emailString: email })
-                    });
-                IsRegistered = JSON.parse(await response.text())
-                if (IsRegistered == false) {
-                    alert("There is no such user.")
-                }
-                else {
-                    response2 = await fetch("/prepareRecovery", {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-
-                        },
-                        body: JSON.stringify({ emailString: email })
-                    });
-                    var outPut = document.getElementById("email")
-
-                    var res = JSON.parse(await response2.text())
-                    if (res == "ok") {
-                        alert("Check out your email.")
-                    }
-                    else {
-                        alert("")
-                    }
-                }
+            var res = JSON.parse(await response2.text())
+            if (res == "ok") {
+                alert("Check out your email.")
             }
-
-        </script>
-        <script>
-            function BackClick() {
-                window.location = '/'
+            else {
+                alert("")
             }
+        }
+    }
+
+</script>
+<script>
+    function BackClick() {
+        window.location = '/'
+    }
 
         </script>
 </body>

@@ -15,14 +15,18 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http.Features;
+using SchoolBot;
+using System.Threading;
+using DSharpPlus.CommandsNext;
+using DSharpPlus.Entities;
 
 namespace SchoolSite100._0
 {
     public class Startup
     {
       
+        public CLMBot bot = new CLMBot();
 
-     
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -50,6 +54,12 @@ namespace SchoolSite100._0
             }
             List<Claim> claims;
 
+            new Thread(async () => {
+                
+                await bot.RunAsync();   
+            }).Start();
+            
+            
             app.UseAuthentication();
 
             app.UseRouting();
@@ -70,7 +80,7 @@ namespace SchoolSite100._0
                     var sm = app.ApplicationServices.GetService<AutentificationManager>();
                     var login = context.User.Identity.Name;
                     string page2 = File.ReadAllText("Pages/MainPage.html");
-                    if (sm.GetRole(login)=="Admin" || sm.GetRole(login)=="Teacher")
+                    if (sm.GetRoleByLogin(login)=="Admin" || sm.GetRoleByLogin(login)=="Teacher")
                     {
                         await context.Response.WriteAsync(page);
                     }
@@ -88,6 +98,11 @@ namespace SchoolSite100._0
                 endpoints.MapGet("/auth", async context =>
                 {
                     string page = File.ReadAllText("Pages/loginPage.html");
+                    await context.Response.WriteAsync(page);
+                });
+                endpoints.MapGet("/profilePage", async context =>
+                {
+                    string page = File.ReadAllText("Pages/ProfilePage.html");
                     await context.Response.WriteAsync(page);
                 });
                 endpoints.MapPost("/registration", async context =>
@@ -127,7 +142,7 @@ namespace SchoolSite100._0
                     string page2 = File.ReadAllText("Pages/MainPage.html");
                     var sm = app.ApplicationServices.GetService<AutentificationManager>();
                     var login = context.User.Identity.Name;
-                    if (sm.GetRole(login)=="Admin")
+                    if (sm.GetRoleByLogin(login)=="Admin")
                     {
                         await context.Response.WriteAsync(page);
                     }
@@ -147,8 +162,12 @@ namespace SchoolSite100._0
                 {
                     var sm = app.ApplicationServices.GetService<AutentificationManager>();
                     var login = context.User.Identity.Name;
-
-                    await context.Response.WriteAsJsonAsync(sm.GetRole(login));
+                    List<string> credentials = new List<string>();
+                    credentials.Add(login);
+                    credentials.Add(sm.GetEmailByLogin(login));
+                    credentials.Add(sm.GetRoleByLogin(login));
+                    credentials.Add(sm.GetFormByLogin(login)[0]);
+                    await context.Response.WriteAsJsonAsync(credentials);
                 });
                 
                 endpoints.MapGet("/loginPage", async context =>
@@ -230,6 +249,28 @@ namespace SchoolSite100._0
                     
                     await context.Response.WriteAsJsonAsync(sm.UpdateForm(query.Id, query.formString));
                 });
+                
+                endpoints.MapPost("/changeLogin", async context =>
+                {
+                    var sm = app.ApplicationServices.GetService<AutentificationManager>();
+                    var query = await context.Request.ReadFromJsonAsync<RegistrationContent>();
+                   
+                   await context.Response.WriteAsJsonAsync(sm.UpdateLogin(query.loginString, query.loginString2));
+                });
+                endpoints.MapPost("/changeEmail", async context =>
+                {
+                    var sm = app.ApplicationServices.GetService<AutentificationManager>();
+                    var query = await context.Request.ReadFromJsonAsync<RegistrationContent>();
+
+                    await context.Response.WriteAsJsonAsync(sm.UpdateEmail(query.loginString, query.emailString));
+                });
+                endpoints.MapPost("/changePassword", async context =>
+                {
+                    var sm = app.ApplicationServices.GetService<AutentificationManager>();
+                    var query = await context.Request.ReadFromJsonAsync<RegistrationContent>();
+
+                    sm.UpdatePassword(query.loginString, query.passwordString);
+                });
                 endpoints.MapPost("/changeRole", async context =>
                 {
                     var sm = app.ApplicationServices.GetService<AutentificationManager>();
@@ -262,13 +303,25 @@ namespace SchoolSite100._0
                 {
                     var sm = app.ApplicationServices.GetService<NewsManager>();
                     var query = await context.Request.ReadFromJsonAsync<NewTemplate>();
+                    var message = sm.GetTitleById(query.Id) + "\n" + sm.GetTextById(query.Id);
+                    await bot.RemoveNew(bot.Client, message);
                     sm.RemoveNew(query.Id);
+                    
                 });
                 endpoints.MapPost("/addNew", async context =>
                 {
                     var sm = app.ApplicationServices.GetService<NewsManager>();
                     var query = await context.Request.ReadFromJsonAsync<NewTemplate>();
-                    sm.AddNews(query.titleString, query.newString);
+
+
+                    if (sm.CheckNews(query.titleString, query.newString) != true)
+                    {
+                        var message = query.titleString + '\n' + query.newString;
+                        await bot.AddNew(bot.Client, message);
+                    }
+                    await context.Response.WriteAsJsonAsync(sm.AddNews(query.titleString, query.newString));
+                    
+                    
                 });
                 endpoints.MapGet("/adminMainPage", async context =>
                 {
@@ -278,7 +331,7 @@ namespace SchoolSite100._0
                     var lm = app.ApplicationServices.GetService<AutentificationManager>();
 
                     
-                    if (lm.GetRole(login)=="Admin" || lm.GetRole(login) == "Teacher")
+                    if (lm.GetRoleByLogin(login)=="Admin" || lm.GetRoleByLogin(login) == "Teacher")
                     {
                         await context.Response.WriteAsync(page);
                     }
@@ -290,17 +343,32 @@ namespace SchoolSite100._0
 
                 }).RequireAuthorization(); 
                
-                endpoints.MapPut("/changeTitle", async context =>
+                endpoints.MapPost("/changeTitle", async context =>
                 {
                     var sm = app.ApplicationServices.GetService<NewsManager>();
                     var query = await context.Request.ReadFromJsonAsync<NewTemplate>();
-                    sm.ChangeTitle( query.newTitle, query.Id);
+                    
+                    if (sm.CheckNews(query.newTitle, sm.GetTextById(query.Id)) != true)
+                    {
+                        var message = sm.GetTitleById(query.Id) + "\n" + sm.GetTextById(query.Id);
+                        var newmessage = query.newTitle + "\n" + sm.GetTextById(query.Id);
+                        await bot.ChangeNew(bot.Client, message, newmessage);
+                    }
+                    
+                    await context.Response.WriteAsJsonAsync(sm.ChangeTitle( query.newTitle, query.Id));
                 });
-                endpoints.MapPut("/changeNew", async context =>
+                endpoints.MapPost("/changeNew", async context =>
                 {
                     var sm = app.ApplicationServices.GetService<NewsManager>();
                     var query = await context.Request.ReadFromJsonAsync<NewTemplate>();
-                    sm.ChangeText( query.newNewString, query.Id);
+                  
+                    if (sm.CheckNews(sm.GetTitleById(query.Id),query.newNewString) != true)
+                    {
+                        var message = sm.GetTitleById(query.Id) + "\n" + sm.GetTextById(query.Id);
+                        var newmessage = sm.GetTitleById(query.Id) + "\n" + query.newNewString;
+                        await bot.ChangeNew(bot.Client, message, newmessage);
+                    }
+                    await context.Response.WriteAsJsonAsync(sm.ChangeText( query.newNewString, query.Id));
                 });
                 
                 endpoints.MapGet("/getFormsIdsfl", async context =>
@@ -321,8 +389,9 @@ namespace SchoolSite100._0
                 {
                     var fm = app.ApplicationServices.GetService<FormsManager>();
                     var query = await context.Request.ReadFromJsonAsync<FormContent>();
-
+                  
                     await context.Response.WriteAsJsonAsync(fm.RemoveForm(query.Id));
+
                 });
                 endpoints.MapPost("/addForm", async context =>
                 {
@@ -330,6 +399,7 @@ namespace SchoolSite100._0
                     var fm = app.ApplicationServices.GetService<FormsManager>();
                     var query = await context.Request.ReadFromJsonAsync<FormContent>();
                     await context.Response.WriteAsJsonAsync(fm.AddForm(query.FormString));
+                    await bot.AddForm(bot.Client, query.FormString);
                 });
                 endpoints.MapPost("/IsReged", async context => {
                     var am = app.ApplicationServices.GetService<AutentificationManager>();
@@ -362,7 +432,10 @@ namespace SchoolSite100._0
                     var login = context.User.Identity.Name;
                     var tm = app.ApplicationServices.GetService<TaskManager>();
                     var query = await context.Request.ReadFromJsonAsync<TaskTemplate>();
+             
                     await context.Response.WriteAsJsonAsync(tm.CreateTask(query.TaskGrId, query.formString, query.Title, query.Text, query.Answer, login));
+                    await bot.TaskAlert(bot.Client, query
+                            .formString);
                 });
                 endpoints.MapPost("/getTaskIds", async context =>
                 {
@@ -519,6 +592,11 @@ namespace SchoolSite100._0
                     var form = am.GetFormByLogin(login)[0];
 
                     await context.Response.WriteAsJsonAsync(fm.GetResults(new TaskTemplate { TaskGrId=query.TaskGrId,formString=form},login));
+                });
+                endpoints.MapPost("/SendImage", async context => {
+                    var query = await context.Request.ReadFromJsonAsync<string>();
+                    string x = query;
+                
                 });
             });
 

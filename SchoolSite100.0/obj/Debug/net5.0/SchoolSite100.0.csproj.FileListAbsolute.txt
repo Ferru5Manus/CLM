@@ -28,7 +28,6 @@ C:\CLM\CLM\SchoolSite100.0\bin\Debug\net5.0\SchoolSite100.0.deps.json
 C:\CLM\CLM\SchoolSite100.0\bin\Debug\net5.0\SchoolSite100.0.runtimeconfig.json
 C:\CLM\CLM\SchoolSite100.0\bin\Debug\net5.0\SchoolSite100.0.runtimeconfig.dev.json
 C:\CLM\CLM\SchoolSite100.0\bin\Debug\net5.0\SchoolSite100.0.dll
-C:\CLM\CLM\SchoolSite100.0\bin\Debug\net5.0\ref\SchoolSite100.0.dll
 C:\CLM\CLM\SchoolSite100.0\bin\Debug\net5.0\SchoolSite100.0.pdb
 C:\CLM\CLM\SchoolSite100.0\bin\Debug\net5.0\Dapper.dll
 C:\CLM\CLM\SchoolSite100.0\obj\Debug\net5.0\SchoolSite100.0.csproj.AssemblyReference.cache
@@ -38,7 +37,6 @@ C:\CLM\CLM\SchoolSite100.0\obj\Debug\net5.0\SchoolSite100.0.AssemblyInfo.cs
 C:\CLM\CLM\SchoolSite100.0\obj\Debug\net5.0\SchoolSite100.0.csproj.CoreCompileInputs.cache
 C:\CLM\CLM\SchoolSite100.0\obj\Debug\net5.0\SchoolSite100.0.MvcApplicationPartsAssemblyInfo.cache
 C:\CLM\CLM\SchoolSite100.0\obj\Debug\net5.0\staticwebassets\SchoolSite100.0.StaticWebAssets.Manifest.cache
-C:\CLM\CLM\SchoolSite100.0\obj\Debug\net5.0\staticwebassets\SchoolSite100.0.StaticWebAssets.xml
 C:\CLM\CLM\SchoolSite100.0\obj\Debug\net5.0\scopedcss\bundle\SchoolSite100.0.styles.css
 C:\CLM\CLM\SchoolSite100.0\obj\Debug\net5.0\SchoolSite100.0.RazorTargetAssemblyInfo.cache
 C:\CLM\CLM\SchoolSite100.0\obj\Debug\net5.0\SchoolSite100.0.dll
@@ -62,4 +60,6 @@ C:\CLM\CLM\SchoolSite100.0\bin\Debug\net5.0\SchoolDatabaseRepository.runtimeconf
 C:\CLM\CLM\SchoolSite100.0\bin\Debug\net5.0\SchoolDatabaseRepository.exe
 C:\CLM\CLM\SchoolSite100.0\bin\Debug\net5.0\SchoolDatabaseRepository.dll
 C:\CLM\CLM\SchoolSite100.0\bin\Debug\net5.0\SchoolDatabaseRepository.pdb
+C:\CLM\CLM\SchoolSite100.0\bin\Debug\net5.0\SchoolSite100.0.StaticWebAssets.xml
 C:\CLM\CLM\SchoolSite100.0\obj\Debug\net5.0\SchoolSite100.0.csproj.CopyComplete
+C:\CLM\CLM\SchoolSite100.0\obj\Debug\net5.0\refint\SchoolSite100.0.dll

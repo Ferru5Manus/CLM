@@ -17,6 +17,9 @@ namespace SchoolDatabaseRepository
 
         void UpdateForm(AccountsDto account);
         void UpdateRole(AccountsDto account);
+        void UpdateLogin(AccountsDto account);
+        void UpdateEmail(AccountsDto account);
+        void UpdatePassword(AccountsDto account);
         List<string> GetPasswordByEmail(AccountsDto accounts);
         List<string> GetPasswordByLogin(AccountsDto accounts);
         List<string> GetLoginByEmail(AccountsDto accounts);

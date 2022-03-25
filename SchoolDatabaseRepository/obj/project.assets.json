@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net5.0": {
+    "net6.0": {
       "BouncyCastle.NetCore/1.8.5": {
         "type": "package",
         "compile": {
@@ -110,14 +110,14 @@
           "System.Text.Encoding.CodePages": "4.4.0"
         },
         "compile": {
-          "lib/net5.0/MySql.Data.dll": {},
-          "lib/net5.0/Ubiety.Dns.Core.dll": {},
-          "lib/net5.0/ZstdNet.dll": {}
+          "lib/net6.0/MySql.Data.dll": {},
+          "lib/net6.0/Ubiety.Dns.Core.dll": {},
+          "lib/net6.0/ZstdNet.dll": {}
         },
         "runtime": {
-          "lib/net5.0/MySql.Data.dll": {},
-          "lib/net5.0/Ubiety.Dns.Core.dll": {},
-          "lib/net5.0/ZstdNet.dll": {}
+          "lib/net6.0/MySql.Data.dll": {},
+          "lib/net6.0/Ubiety.Dns.Core.dll": {},
+          "lib/net6.0/ZstdNet.dll": {}
         }
       },
       "System.Buffers/4.5.1": {
@@ -875,14 +875,14 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net5.0": [
+    "net6.0": [
       "Dapper >= 2.0.123",
       "MySql.Data >= 8.0.28"
     ]
   },
   "packageFolders": {
     "C:\\Users\\ASUS\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
@@ -894,23 +894,23 @@
       "outputPath": "C:\\CLM\\CLM\\SchoolDatabaseRepository\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
         "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net5.0"
+        "net6.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net5.0": {
-          "targetAlias": "net5.0",
+        "net6.0": {
+          "targetAlias": "net6.0",
           "projectReferences": {}
         }
       },
@@ -921,8 +921,8 @@
       }
     },
     "frameworks": {
-      "net5.0": {
-        "targetAlias": "net5.0",
+      "net6.0": {
+        "targetAlias": "net6.0",
         "dependencies": {
           "Dapper": {
             "target": "Package",
@@ -948,7 +948,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

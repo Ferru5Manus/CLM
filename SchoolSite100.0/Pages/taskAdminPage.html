@@ -16,6 +16,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item" id ='nav0'>
+                        
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/mainPage">News</a>
                     </li>
@@ -399,18 +402,20 @@
                     }
                 });
             var acc = JSON.parse(await response.text())
-            if (acc == "Admin") {
+            if (acc[2] == "Admin") {
                 var nav1 = document.getElementById("nav1")
                 var nav2 = document.getElementById("nav2")
-                
+                var nav0 = document.getElementById('nav0')
+                nav0.innerHTML='<a href="/profilePage" class="nav-link" aria-current="page">'+acc[0]+'</a>'
                 
                 nav1.innerHTML = '<a class="nav-link" aria-current="page" href="/adminMainPage">NewsAdministration</a>'
                 nav2.innerHTML = '<a class="nav-link" aria-current="page" href="/adminUsersPage">UsersAndFormsAdministration</a>'
             }
-            if (acc == "Teacher") {
+            if (acc[2] == "Teacher") {
                 var nav1 = document.getElementById("nav1")
-                var nav2 = document.getElementById("mav2")
-
+                var nav2 = document.getElementById("nav2")
+                var nav0=document.getElementById("nav0")
+                nav0.innerHTML='<a href="/profilePage" class="nav-link" aria-current="page">'+acc[0]+'</a>'
                 nav1.innerHTML = ''
                 nav2.innerHTML = '<a class="nav-link" aria-current="page" href="/adminMainPage">NewsAdministration</a>'
                 
