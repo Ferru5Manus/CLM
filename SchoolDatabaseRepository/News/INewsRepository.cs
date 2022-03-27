@@ -8,12 +8,12 @@ namespace SchoolDatabaseRepository
         List<string> GetAllTitles();
         List<string> GetAllNewsText();
         List<string> GetAllIds();
-        List<string> GetTitleById(NewsDto news);
-        List<string> GetTextById(NewsDto news);
+        string GetTitleById(NewsDto news);
+        string GetTextById(NewsDto news);
         void RemoveNew(NewsDto news);
         void ChangeNewTitle(NewsDto news);
         void ChangeNewText(NewsDto news);
-        List<string> GetNewsByTitle(NewsDto news);      
+        string GetNewsIdByTitle(NewsDto news);      
 
     }
 }

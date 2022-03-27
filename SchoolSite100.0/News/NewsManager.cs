@@ -9,12 +9,12 @@ namespace SchoolSite100._0
     public class NewsManager
     {
        
-        NewsDatabaseRepository repository = new NewsDatabaseRepository();
+        private NewsDatabaseRepository m_NewsRepository = new NewsDatabaseRepository();
         public bool AddNews(string Title, string Text)
         {
             if(!CheckNews(Title, Text))
             {
-                repository.SaveNew(new NewsDto() { TitleString = Title, TextString = Text });
+               m_NewsRepository.SaveNew(new NewsDto() { TitleString = Title, TextString = Text });
                 return true;
             }
             else
@@ -39,7 +39,7 @@ namespace SchoolSite100._0
         public List<string> GetNewsTit()
         {
 
-            List<string> s = repository.GetAllTitles();
+            List<string> s =m_NewsRepository.GetAllTitles();
             
             return s;
         }
@@ -47,7 +47,7 @@ namespace SchoolSite100._0
         public List<string> GetNewsText()
         {
 
-            List<string> s = repository.GetAllNewsText();
+            List<string> s =m_NewsRepository.GetAllNewsText();
             
             return s;
         }
@@ -55,20 +55,20 @@ namespace SchoolSite100._0
         public List<string> GetNewsId()
         {
 
-            List<string> s = repository.GetAllIds();
+            List<string> s =m_NewsRepository.GetAllIds();
             
             return s;
         }
 
         public void RemoveNew(int id)
         {
-            repository.RemoveNew(new NewsDto() { Id=id});
+           m_NewsRepository.RemoveNew(new NewsDto() { Id=id});
         }
         public bool ChangeTitle(string newTitle,int id)
         {
             if (!CheckNews(newTitle,GetTextById(id)))
             {
-                repository.ChangeNewTitle(new NewsDto() { newTitleString = newTitle, Id = id });
+               m_NewsRepository.ChangeNewTitle(new NewsDto() { newTitleString = newTitle, Id = id });
                 return true;
             }
             else
@@ -80,17 +80,17 @@ namespace SchoolSite100._0
         }
         public string GetTitleById(int id)
         {
-            return repository.GetTitleById(new NewsDto() { Id = id })[0];
+            return m_NewsRepository.GetTitleById(new NewsDto() { Id = id });
         }
         public string GetTextById(int id)
         {
-            return repository.GetTextById(new NewsDto() { Id = id })[0];
+            return m_NewsRepository.GetTextById(new NewsDto() { Id = id });
         }
         public bool ChangeText(string newText,int id)
         {
             if (!CheckNews(GetTitleById(id), newText))
             {
-                repository.ChangeNewText(new NewsDto() { newTextString = newText, Id = id });
+               m_NewsRepository.ChangeNewText(new NewsDto() { newTextString = newText, Id = id });
                 return true;
             }
             else

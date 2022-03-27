@@ -49,15 +49,15 @@ namespace SchoolDatabaseRepository
 
        
 
-        public List<string> GetTextById(NewsDto news)
+        public string GetTextById(NewsDto news)
         {
-            List<string> lst = new List<string>();
+            List<string> newsTextes = new List<string>();
             using (MySqlConnection cnx = new MySqlConnection("Server = 127.0.0.1; Database = clm; Uid = root; Pwd = root;"))
             {
 
                 var result = cnx.Query<NewsDto>("select * from news where id=@id", new { news.Id }).ToList();
-                lst = result.Select(account => account.TextString.ToString()).ToList();
-                return lst;
+                newsTextes = result.Select(text => text.TextString.ToString()).ToList();
+                return newsTextes[0];
 
 
 
@@ -108,33 +108,30 @@ namespace SchoolDatabaseRepository
             }
         }
 
-        public List<string> GetTitleById(NewsDto news)
+        public string GetTitleById(NewsDto news)
         {
-            List<string> lst = new List<string>();
+            List<string> newsTitles = new List<string>();
             using (MySqlConnection cnx = new MySqlConnection("Server = 127.0.0.1; Database = clm; Uid = root; Pwd = root;"))
             {
                 
                     var result = cnx.Query<NewsDto>("select * from news where id=@id", new { news.Id }).ToList();
-                    lst = result.Select(account => account.TitleString.ToString()).ToList();
-                    return lst;
+                    newsTitles = result.Select(titles => titles.TitleString.ToString()).ToList();
+                    return newsTitles[0];
                 
                 
 
             }
         }
 
-        public List<string> GetNewsByTitle(NewsDto news)
+        public string GetNewsIdByTitle(NewsDto news)
         {
-            List<string> lst = new List<string>();
+            List<string> newsIds = new List<string>();
             using (MySqlConnection cnx = new MySqlConnection("Server = 127.0.0.1; Database = clm; Uid = root; Pwd = root;"))
             {
 
                 var result = cnx.Query<NewsDto>("select * from news where title=@title", new { news.TitleString }).ToList();
-                lst = result.Select(account => account.Id.ToString()).ToList();
-                return lst;
-
-
-
+                newsIds = result.Select(ids => ids.Id.ToString()).ToList();
+                return newsIds[0];
             }
         }
     }
