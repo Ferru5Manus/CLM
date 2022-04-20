@@ -112,7 +112,7 @@ a {
             alert("Password input must be filled!");
         }
         else {
-            var resp = await fetch("/IsReged",
+            var response = await fetch("/registration",
                 {
                     method: 'POST',
                     headers: {
@@ -120,37 +120,27 @@ a {
                     },
                     body: JSON.stringify({ emailString: email, loginString: login, passwordString: password })
                 });
-            IsRegistered2 = JSON.parse(await resp.text())
-            if (IsRegistered2 == false) {
-                var response = await fetch("/registration",
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ emailString: email, loginString: login, passwordString: password })
-                    });
-                IsRegistered = JSON.parse(await response.text())
-                if (IsRegistered == true) {
-                    await fetch("/login", {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
+            IsRegistered = JSON.parse(await response.text())
+            if (IsRegistered == true) {
+                await fetch("/login", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
 
-                        },
-                        body: JSON.stringify({ loginString: login, passwordString: password, emailString: email })
-                    });
-                    window.location = '/mainPage'
-                }
+                    },
+                    body: JSON.stringify({ loginString: login, passwordString: password, emailString: email })
+                });
+                window.location = '/mainPage'
             }
-            
             else {
                 alert("This user already exists!")
             }
         }
-
-
+            
+           
     }
+
+
 </script>
 <script>
     function LoginClick() {

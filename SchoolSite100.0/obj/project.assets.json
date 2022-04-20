@@ -149,7 +149,7 @@
           "lib/net6.0/Discord.Net.WebSocket.dll": {}
         }
       },
-      "DSharpPlus/4.1.0": {
+      "DSharpPlus/4.2.0": {
         "type": "package",
         "dependencies": {
           "Emzi0767.Common": "2.6.2",
@@ -159,7 +159,8 @@
           "System.Net.Http": "4.3.4",
           "System.Net.WebSockets": "4.3.0",
           "System.Net.WebSockets.Client": "4.3.2",
-          "System.Runtime.InteropServices.RuntimeInformation": "4.3.0"
+          "System.Runtime.InteropServices.RuntimeInformation": "4.3.0",
+          "System.Threading.Channels": "5.0.0"
         },
         "compile": {
           "lib/netstandard2.0/DSharpPlus.dll": {}
@@ -168,10 +169,10 @@
           "lib/netstandard2.0/DSharpPlus.dll": {}
         }
       },
-      "DSharpPlus.CommandsNext/4.1.0": {
+      "DSharpPlus.CommandsNext/4.2.0": {
         "type": "package",
         "dependencies": {
-          "DSharpPlus": "4.1.0",
+          "DSharpPlus": "4.2.0",
           "Microsoft.Extensions.DependencyInjection": "5.0.1"
         },
         "compile": {
@@ -181,11 +182,11 @@
           "lib/netstandard2.0/DSharpPlus.CommandsNext.dll": {}
         }
       },
-      "DSharpPlus.Interactivity/4.1.0": {
+      "DSharpPlus.Interactivity/4.2.0": {
         "type": "package",
         "dependencies": {
           "ConcurrentHashSet": "1.1.0",
-          "DSharpPlus": "4.1.0"
+          "DSharpPlus": "4.2.0"
         },
         "compile": {
           "lib/netstandard2.0/DSharpPlus.Interactivity.dll": {}
@@ -194,10 +195,10 @@
           "lib/netstandard2.0/DSharpPlus.Interactivity.dll": {}
         }
       },
-      "DSharpPlus.Rest/4.1.0": {
+      "DSharpPlus.Rest/4.2.0": {
         "type": "package",
         "dependencies": {
-          "DSharpPlus": "4.1.0"
+          "DSharpPlus": "4.2.0"
         },
         "compile": {
           "lib/netstandard2.0/DSharpPlus.Rest.dll": {}
@@ -206,10 +207,10 @@
           "lib/netstandard2.0/DSharpPlus.Rest.dll": {}
         }
       },
-      "DSharpPlus.VoiceNext/4.1.0": {
+      "DSharpPlus.VoiceNext/4.2.0": {
         "type": "package",
         "dependencies": {
-          "DSharpPlus": "4.1.0",
+          "DSharpPlus": "4.2.0",
           "DSharpPlus.VoiceNext.Natives": "1.0.0",
           "System.Threading.Channels": "5.0.0"
         },
@@ -1666,11 +1667,11 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "DSharpPlus": "4.1.0",
-          "DSharpPlus.CommandsNext": "4.1.0",
-          "DSharpPlus.Interactivity": "4.1.0",
-          "DSharpPlus.Rest": "4.1.0",
-          "DSharpPlus.VoiceNext": "4.1.0",
+          "DSharpPlus": "4.2.0",
+          "DSharpPlus.CommandsNext": "4.2.0",
+          "DSharpPlus.Interactivity": "4.2.0",
+          "DSharpPlus.Rest": "4.2.0",
+          "DSharpPlus.VoiceNext": "4.2.0",
           "DSharpPlus.VoiceNext.Natives": "1.0.0",
           "Discord.Net": "3.4.1",
           "Discord.Net.Core": "3.4.1",
@@ -1942,71 +1943,71 @@
         "lib/netstandard2.1/Discord.Net.WebSocket.xml"
       ]
     },
-    "DSharpPlus/4.1.0": {
-      "sha512": "s1QTvwMvbTTmIviOaVOyFRH2NAwW9IXMnCzevLrEFV6XFJ3ZnYrF2B03K6iA2U9uChUTZVOSNkhRNcPqqZHzCA==",
+    "DSharpPlus/4.2.0": {
+      "sha512": "sdQQS6ud6UAA7qUXOi5pyt1NMkBuAJ8SdssNJykE+sUXpDfD23Ja1AgUo+QktkTv1/jvQfcyET7HqgpBFdmjmw==",
       "type": "package",
-      "path": "dsharpplus/4.1.0",
+      "path": "dsharpplus/4.2.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "dsharpplus.4.1.0.nupkg.sha512",
+        "dsharpplus.4.2.0.nupkg.sha512",
         "dsharpplus.nuspec",
         "dsharpplus.png",
         "lib/netstandard2.0/DSharpPlus.dll",
         "lib/netstandard2.0/DSharpPlus.xml"
       ]
     },
-    "DSharpPlus.CommandsNext/4.1.0": {
-      "sha512": "4rxtz2pWEsJpPBjtnWEB6q5TmFlKLc7w934CQHS26Ylj85/9k+aYLW7e61TEcsd/+zLjUs7BF82YvlhGKImrZQ==",
+    "DSharpPlus.CommandsNext/4.2.0": {
+      "sha512": "Pxo/RLazTHnWQAx22WLvm6VHy2vpH9gnMUJ+zzvqMmX2ZtEraxF72yRKFmE6liYhZ7Fd/Zab/p52W2/L+UXVjA==",
       "type": "package",
-      "path": "dsharpplus.commandsnext/4.1.0",
+      "path": "dsharpplus.commandsnext/4.2.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "dsharpplus.commandsnext.4.1.0.nupkg.sha512",
+        "dsharpplus.commandsnext.4.2.0.nupkg.sha512",
         "dsharpplus.commandsnext.nuspec",
         "dsharpplus.png",
         "lib/netstandard2.0/DSharpPlus.CommandsNext.dll",
         "lib/netstandard2.0/DSharpPlus.CommandsNext.xml"
       ]
     },
-    "DSharpPlus.Interactivity/4.1.0": {
-      "sha512": "FTQXMqGoWvGMox+UyybL0Jc/P12xTCIUfMRF0n3974Sa5QiwrqhDdP02lHmUS7k7dQF+vMY/YLjLyYdPB7hpFw==",
+    "DSharpPlus.Interactivity/4.2.0": {
+      "sha512": "ZCYFmLT+LNwZygNXX4C1RQI3cSs2zTLaIoam8cAp8TIdani5xVxMF0CTOtUNxXy/pjRyYcfjnY/USWN9kz2cqg==",
       "type": "package",
-      "path": "dsharpplus.interactivity/4.1.0",
+      "path": "dsharpplus.interactivity/4.2.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "dsharpplus.interactivity.4.1.0.nupkg.sha512",
+        "dsharpplus.interactivity.4.2.0.nupkg.sha512",
         "dsharpplus.interactivity.nuspec",
         "dsharpplus.png",
         "lib/netstandard2.0/DSharpPlus.Interactivity.dll",
         "lib/netstandard2.0/DSharpPlus.Interactivity.xml"
       ]
     },
-    "DSharpPlus.Rest/4.1.0": {
-      "sha512": "XRbZDkXBfZw8cRSYomyH4B64k2MalSjCf6en55fi75/01KbxTddcXYa/9ThFtu5aZaRW5mFcga5xXHsVHxKiZQ==",
+    "DSharpPlus.Rest/4.2.0": {
+      "sha512": "6YYu7C+oM9qD4U30WXiZ2DvnFV0hDlmdQtIvc/jBkEyyBuzaWQxqbNH2hHnFOAu/Ag8YhN2HuZ68elPJx6Ovmg==",
       "type": "package",
-      "path": "dsharpplus.rest/4.1.0",
+      "path": "dsharpplus.rest/4.2.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "dsharpplus.png",
-        "dsharpplus.rest.4.1.0.nupkg.sha512",
+        "dsharpplus.rest.4.2.0.nupkg.sha512",
         "dsharpplus.rest.nuspec",
         "lib/netstandard2.0/DSharpPlus.Rest.dll",
         "lib/netstandard2.0/DSharpPlus.Rest.xml"
       ]
     },
-    "DSharpPlus.VoiceNext/4.1.0": {
-      "sha512": "QbuxRaT/1GFoY9pCNraQ2XGLZWFXE8z/FQoXsOpTQqFW4UzC+fVV+2kXVMhuS6zJP+E96MRC2kveIgzwoVXJfA==",
+    "DSharpPlus.VoiceNext/4.2.0": {
+      "sha512": "nTc+u++d4+qU8kxYfjPZj+05oVDeqzrtYTGiH8qY1ssQPTi1M2yNPzK8+H1yxKKvcCnvlboxTN5Z8etc6ycLaQ==",
       "type": "package",
-      "path": "dsharpplus.voicenext/4.1.0",
+      "path": "dsharpplus.voicenext/4.2.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "dsharpplus.png",
-        "dsharpplus.voicenext.4.1.0.nupkg.sha512",
+        "dsharpplus.voicenext.4.2.0.nupkg.sha512",
         "dsharpplus.voicenext.nuspec",
         "lib/netstandard2.0/DSharpPlus.VoiceNext.dll",
         "lib/netstandard2.0/DSharpPlus.VoiceNext.xml"
@@ -5555,11 +5556,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\CLM\\CLM\\SchoolSite100.0\\SchoolSite100.0.csproj",
+      "projectUniqueName": "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolSite100.0\\SchoolSite100.0.csproj",
       "projectName": "SchoolSite100.0",
-      "projectPath": "C:\\CLM\\CLM\\SchoolSite100.0\\SchoolSite100.0.csproj",
+      "projectPath": "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolSite100.0\\SchoolSite100.0.csproj",
       "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-      "outputPath": "C:\\CLM\\CLM\\SchoolSite100.0\\obj\\",
+      "outputPath": "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolSite100.0\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -5580,11 +5581,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\CLM\\CLM\\SchoolBot\\SchoolBot.csproj": {
-              "projectPath": "C:\\CLM\\CLM\\SchoolBot\\SchoolBot.csproj"
+            "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolBot\\SchoolBot.csproj": {
+              "projectPath": "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolBot\\SchoolBot.csproj"
             },
-            "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj": {
-              "projectPath": "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj"
+            "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj": {
+              "projectPath": "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj"
             }
           }
         }

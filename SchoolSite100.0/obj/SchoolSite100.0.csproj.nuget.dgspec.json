@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\CLM\\CLM\\SchoolSite100.0\\SchoolSite100.0.csproj": {}
+    "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolSite100.0\\SchoolSite100.0.csproj": {}
   },
   "projects": {
-    "C:\\CLM\\CLM\\SchoolBot\\SchoolBot.csproj": {
+    "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolBot\\SchoolBot.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\CLM\\CLM\\SchoolBot\\SchoolBot.csproj",
+        "projectUniqueName": "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolBot\\SchoolBot.csproj",
         "projectName": "SchoolBot",
-        "projectPath": "C:\\CLM\\CLM\\SchoolBot\\SchoolBot.csproj",
+        "projectPath": "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolBot\\SchoolBot.csproj",
         "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "C:\\CLM\\CLM\\SchoolBot\\obj\\",
+        "outputPath": "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolBot\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj": {
-                "projectPath": "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj"
+              "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj": {
+                "projectPath": "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj"
               }
             }
           }
@@ -50,23 +50,23 @@
           "dependencies": {
             "DSharpPlus": {
               "target": "Package",
-              "version": "[4.1.0, )"
+              "version": "[4.2.0, )"
             },
             "DSharpPlus.CommandsNext": {
               "target": "Package",
-              "version": "[4.1.0, )"
+              "version": "[4.2.0, )"
             },
             "DSharpPlus.Interactivity": {
               "target": "Package",
-              "version": "[4.1.0, )"
+              "version": "[4.2.0, )"
             },
             "DSharpPlus.Rest": {
               "target": "Package",
-              "version": "[4.1.0, )"
+              "version": "[4.2.0, )"
             },
             "DSharpPlus.VoiceNext": {
               "target": "Package",
-              "version": "[4.1.0, )"
+              "version": "[4.2.0, )"
             },
             "DSharpPlus.VoiceNext.Natives": {
               "target": "Package",
@@ -120,14 +120,14 @@
         }
       }
     },
-    "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj": {
+    "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj",
+        "projectUniqueName": "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj",
         "projectName": "SchoolDatabaseRepository",
-        "projectPath": "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj",
+        "projectPath": "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj",
         "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "C:\\CLM\\CLM\\SchoolDatabaseRepository\\obj\\",
+        "outputPath": "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolDatabaseRepository\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -188,14 +188,14 @@
         }
       }
     },
-    "C:\\CLM\\CLM\\SchoolSite100.0\\SchoolSite100.0.csproj": {
+    "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolSite100.0\\SchoolSite100.0.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\CLM\\CLM\\SchoolSite100.0\\SchoolSite100.0.csproj",
+        "projectUniqueName": "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolSite100.0\\SchoolSite100.0.csproj",
         "projectName": "SchoolSite100.0",
-        "projectPath": "C:\\CLM\\CLM\\SchoolSite100.0\\SchoolSite100.0.csproj",
+        "projectPath": "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolSite100.0\\SchoolSite100.0.csproj",
         "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "C:\\CLM\\CLM\\SchoolSite100.0\\obj\\",
+        "outputPath": "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolSite100.0\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -216,11 +216,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\CLM\\CLM\\SchoolBot\\SchoolBot.csproj": {
-                "projectPath": "C:\\CLM\\CLM\\SchoolBot\\SchoolBot.csproj"
+              "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolBot\\SchoolBot.csproj": {
+                "projectPath": "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolBot\\SchoolBot.csproj"
               },
-              "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj": {
-                "projectPath": "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj"
+              "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj": {
+                "projectPath": "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj"
               }
             }
           }

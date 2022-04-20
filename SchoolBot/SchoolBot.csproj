@@ -13,11 +13,11 @@
     <PackageReference Include="Discord.Net.Rest" Version="3.4.1" />
     <PackageReference Include="Discord.Net.Webhook" Version="3.4.1" />
     <PackageReference Include="Discord.Net.WebSocket" Version="3.4.1" />
-    <PackageReference Include="DSharpPlus" Version="4.1.0" />
-    <PackageReference Include="DSharpPlus.CommandsNext" Version="4.1.0" />
-    <PackageReference Include="DSharpPlus.Interactivity" Version="4.1.0" />
-    <PackageReference Include="DSharpPlus.Rest" Version="4.1.0" />
-    <PackageReference Include="DSharpPlus.VoiceNext" Version="4.1.0" />
+    <PackageReference Include="DSharpPlus" Version="4.2.0" />
+    <PackageReference Include="DSharpPlus.CommandsNext" Version="4.2.0" />
+    <PackageReference Include="DSharpPlus.Interactivity" Version="4.2.0" />
+    <PackageReference Include="DSharpPlus.Rest" Version="4.2.0" />
+    <PackageReference Include="DSharpPlus.VoiceNext" Version="4.2.0" />
     <PackageReference Include="DSharpPlus.VoiceNext.Natives" Version="1.0.0" />
   </ItemGroup>
 

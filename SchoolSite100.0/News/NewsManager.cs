@@ -79,7 +79,7 @@ namespace SchoolSite100._0
 
         }
         public string GetTitleById(int id)
-        {
+        { 
             return repository.GetTitleById(new NewsDto() { Id = id })[0];
         }
         public string GetTextById(int id)
@@ -88,16 +88,8 @@ namespace SchoolSite100._0
         }
         public bool ChangeText(string newText,int id)
         {
-            if (!CheckNews(GetTitleById(id), newText))
-            {
                 repository.ChangeNewText(new NewsDto() { newTextString = newText, Id = id });
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-           
+                return true;    
         }
     }
 }

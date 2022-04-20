@@ -27,28 +27,37 @@ namespace SchoolSite100._0
                     var lastLine = File.ReadAllLines($"{path}/{FormString}/TaskGroupInfo.txt").Last();
                     string[] data = lastLine.Split('|');
                     string x = (Convert.ToInt32(data[0])+1).ToString() + "-_-" + hw.Name;
-                        Directory.CreateDirectory($"{path}/{FormString}/{x}");
-                        int id = Convert.ToInt32(data[0]) + 1;
-                        using (StreamWriter sw = new StreamWriter($"{path}/{FormString}/TaskGroupInfo.txt", true, System.Text.Encoding.Default))
-                        {
-                            await sw.WriteLineAsync((Convert.ToInt32(data[0]) + 1).ToString() + "|" + hw.Name);
-                            sw.Close();
-                        }
-                     }
-                    catch(Exception)
+                    Directory.CreateDirectory($"{path}/{FormString}/{x}");
+                    int id = Convert.ToInt32(data[0]) + 1;
+                    using (StreamWriter sw = new StreamWriter($"{path}/{FormString}/TaskGroupInfo.txt", true, System.Text.Encoding.Default))
+                    {
+                        await sw.WriteLineAsync((Convert.ToInt32(data[0]) + 1).ToString() + "|" + hw.Name);
+                        sw.Close();
+                    }
+                    using (StreamWriter sw1 = new StreamWriter($"{path}/{FormString}/{x}/TasksInfo.txt", true, System.Text.Encoding.Default))
                     {
                         
-                        
-                        string x = '1' + "-_-" + hw.Name;
-                        Directory.CreateDirectory($"{path}/{FormString}/{x}");
-                        int id = 1;
-                        using (StreamWriter sw = new StreamWriter($"{path}/{FormString}/TaskGroupInfo.txt", true, System.Text.Encoding.Default))
-                        {
-                            await sw.WriteLineAsync(id.ToString() + "|" + hw.Name);
-                            sw.Close();
-                        }
-
+                            sw1.Close();
                     }
+                }
+                catch(Exception)
+                {
+                        
+                        
+                    string x = '1' + "-_-" + hw.Name;
+                    Directory.CreateDirectory($"{path}/{FormString}/{x}");
+                    int id = 1;
+                    using (StreamWriter sw = new StreamWriter($"{path}/{FormString}/TaskGroupInfo.txt", true, System.Text.Encoding.Default))
+                    {
+                        await sw.WriteLineAsync(id.ToString() + "|" + hw.Name);
+                        sw.Close();
+                    }
+                    using (StreamWriter sw1 = new StreamWriter($"{path}/{FormString}/{x}/TasksInfo.txt", true, System.Text.Encoding.Default))
+                    {
+
+                        sw1.Close();
+                    }
+                }
                     
                 
                 
@@ -176,12 +185,6 @@ namespace SchoolSite100._0
                             sw.Close();
                         }
                     }
-
-                      
-
-                    
-                    
-
                 }
                 catch (Exception)
                 {

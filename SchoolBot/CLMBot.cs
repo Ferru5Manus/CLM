@@ -24,7 +24,7 @@ namespace SchoolBot
         public async Task RunAsync()
         {
             var json = string.Empty;
-            using (var fs = File.OpenRead(@"C:\CLM\CLM\SchoolBot\config.json"))
+            using (var fs = File.OpenRead(@"C:\Users\ASUS\OneDrive\Рабочий стол\CLM-main\SchoolBot\config.json"))
             using (var sr = new StreamReader(fs, new UTF8Encoding(false)))
                 json = await sr.ReadToEndAsync().ConfigureAwait(false);
 

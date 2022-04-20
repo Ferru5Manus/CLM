@@ -16,42 +16,23 @@ namespace SchoolSite100._0
         private AccountsDatabaseRepository AccountDto = new AccountsDatabaseRepository();
         private FormsManager forms = new FormsManager();
         private List<string> roles = new List<string> { "Admin", "User", "Teacher" };
-        public void Register(string login, string password, string email)
+        public bool Register(string login, string password, string email)
         {
             if (IsRegistred(login,password,email)==false)
             {
                 AccountDto.AddAccount(new AccountsDto { login=login,password=EncryptPlainTextToCipherText(password),email=email,form="",role="User" }) ;
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
         public bool IsRegistred(string login, string password, string email)
         {
-            if (AccountDto.GetUserByEmail(new AccountsDto { email = email }) != null)
+            if (AccountDto.GetUserByEmail(new AccountsDto { email = email }).Count!=0|| AccountDto.GetPasswordByLogin(new AccountsDto { login = login }).Count != 0)
             {
-                if (AccountDto.GetPasswordByLogin(new AccountsDto {login=login})!=null)
-                {
-                    if (AccountDto.GetPasswordByLogin(new AccountsDto { login = login }).Count() > 0)
-                    {
-                        if (AccountDto.GetPasswordByLogin(new AccountsDto { login = login })[0] == EncryptPlainTextToCipherText(password))
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                    
-                    
-                }
-                else
-                {
-                    return false;
-                }
-                
+                return true;
             }
             else
             {
@@ -61,31 +42,9 @@ namespace SchoolSite100._0
         }
         public bool IsRegistred(string login, string password)
         {
-            if (AccountDto.GetUserByLogin(new AccountsDto { login = login }) != null )
+            if (AccountDto.GetUserByLogin(new AccountsDto { login = login }) != null && AccountDto.GetPasswordByLogin(new AccountsDto { login = login }) != null && AccountDto.GetPasswordByLogin(new AccountsDto { login = login }).Count() > 0 && AccountDto.GetPasswordByLogin(new AccountsDto { login = login })[0] == EncryptPlainTextToCipherText(password))
             {
-                if (AccountDto.GetPasswordByLogin(new AccountsDto { login = login }) != null)
-                {
-                    if (AccountDto.GetPasswordByLogin(new AccountsDto { login = login }).Count() > 0)
-                    {
-                        if (AccountDto.GetPasswordByLogin(new AccountsDto { login = login })[0] == EncryptPlainTextToCipherText(password))
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        return false;
-                    }
-
-                }
-                else
-                {
-                    return false;
-                }
+                return true;
             }
             else
             {
@@ -96,7 +55,6 @@ namespace SchoolSite100._0
         public bool IsRegistredEarlier(string login,string email)
         {
             if (AccountDto.GetUserByLogin(new AccountsDto { login = login }).Count!=0 && AccountDto.GetPasswordByEmail(new AccountsDto { email = email}).Count != 0)
-
             {
                 return true;
             }

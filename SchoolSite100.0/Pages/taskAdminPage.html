@@ -167,6 +167,7 @@
                 body: JSON.stringify({ Id: taskGrId, formString: formString })
             });
             Clear('output-group-content');
+            Clear('resultsContent')
         }
         async function OnChangeTaskGrContent(TaskGrId, formName) {
             Clear('output-group-content');

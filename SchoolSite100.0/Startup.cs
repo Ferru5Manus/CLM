@@ -109,8 +109,7 @@ namespace SchoolSite100._0
                 {
                     var am = app.ApplicationServices.GetService<AutentificationManager>();
                     var query = await context.Request.ReadFromJsonAsync<RegistrationContent>();
-                   am.Register(query.loginString,query.passwordString,query.emailString) ;
-                    await context.Response.WriteAsJsonAsync(am.IsRegistred(query.loginString, query.passwordString, query.emailString));
+                    await context.Response.WriteAsJsonAsync(am.Register(query.loginString, query.passwordString, query.emailString));
                 });
                 endpoints.MapPost("/login", async context => {
                     var credentials = await context.Request.ReadFromJsonAsync<RegistrationContent>();
@@ -352,22 +351,27 @@ namespace SchoolSite100._0
                     {
                         var message = sm.GetTitleById(query.Id) + "\n" + sm.GetTextById(query.Id);
                         var newmessage = query.newTitle + "\n" + sm.GetTextById(query.Id);
-                        await bot.ChangeNew(bot.Client, message, newmessage);
+
+                        bot.ChangeNew(bot.Client, message, newmessage).GetAwaiter();
+                       
+                        await context.Response.WriteAsJsonAsync(sm.ChangeTitle(query.newTitle, query.Id));
+
+                    }
+                    else
+                    {
+                        await context.Response.WriteAsJsonAsync(false);
                     }
                     
-                    await context.Response.WriteAsJsonAsync(sm.ChangeTitle( query.newTitle, query.Id));
                 });
                 endpoints.MapPost("/changeNew", async context =>
                 {
                     var sm = app.ApplicationServices.GetService<NewsManager>();
                     var query = await context.Request.ReadFromJsonAsync<NewTemplate>();
                   
-                    if (sm.CheckNews(sm.GetTitleById(query.Id),query.newNewString) != true)
-                    {
-                        var message = sm.GetTitleById(query.Id) + "\n" + sm.GetTextById(query.Id);
-                        var newmessage = sm.GetTitleById(query.Id) + "\n" + query.newNewString;
-                        await bot.ChangeNew(bot.Client, message, newmessage);
-                    }
+                    
+                    var message = sm.GetTitleById(query.Id) + "\n" + sm.GetTextById(query.Id);
+                    var newmessage = sm.GetTitleById(query.Id) + "\n" + query.newNewString;
+                    bot.ChangeNew(bot.Client, message, newmessage).GetAwaiter();
                     await context.Response.WriteAsJsonAsync(sm.ChangeText( query.newNewString, query.Id));
                 });
                 
@@ -405,7 +409,6 @@ namespace SchoolSite100._0
                     var am = app.ApplicationServices.GetService<AutentificationManager>();
                     var query = await context.Request.ReadFromJsonAsync<RegistrationContent>();
                     await context.Response.WriteAsJsonAsync(am.IsRegistredEarlier(query.loginString, query.emailString));
-
                 });
                 endpoints.MapPost("/AddTaskGr", async context =>
                 {

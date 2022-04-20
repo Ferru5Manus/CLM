@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jt43DW0X8B55hSDMDCul2UXk8xWrXnX5xjrEfBt3WdCcj5ekMp1gzdmMx/btJOP4MDr1Ol12MWux/pvta6HcfQ==",
+  "dgSpecHash": "tM9mtcVlG8FA9Nn9CfQrvGF5VuQSY7kxZKTAmsjahkfYUtPlSxbtBafkS5d/yBgzNXCWGdJ2Z+KFPTE6rcAVgg==",
   "success": true,
-  "projectFilePath": "C:\\CLM\\CLM\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj",
+  "projectFilePath": "C:\\Users\\ASUS\\OneDrive\\Рабочий стол\\CLM-main\\SchoolDatabaseRepository\\SchoolDatabaseRepository.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ASUS\\.nuget\\packages\\bouncycastle.netcore\\1.8.5\\bouncycastle.netcore.1.8.5.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
