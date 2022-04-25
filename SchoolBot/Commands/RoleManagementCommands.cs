@@ -320,7 +320,7 @@ namespace SchoolBot
         [Description("Configures guild id")]
         public async Task ConfigureGuildId(CommandContext ctx, string guildId)
         {
-            using (StreamWriter sw = new StreamWriter(@"C:\Tasks\TasksChannelConfig.txt", false, System.Text.Encoding.Default))
+            using (StreamWriter sw = new StreamWriter(@"C:\Tasks\GuildDiscordId.txt", false, System.Text.Encoding.Default))
             {
                 await sw.WriteLineAsync(guildId); 
                 sw.Close();

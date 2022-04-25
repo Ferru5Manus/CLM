@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿
+
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -91,21 +94,24 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li id="0" class="nav-item">
+
+                    </li>
                     <li class="nav-item" id='nav0'>
 
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/mainPage">News</a>
                     </li>
-                   
+
                     <li id="1" class="nav-item">
-                        
+
                     </li>
                     <li id="2" class="nav-item">
-                        
+
                     </li>
                     <li id="3" class="nav-item">
-                        
+
                     </li>
                 </ul>
             </div>
@@ -166,18 +172,21 @@
                     }
                 });
             var acc = JSON.parse(await response.text())
-            if (acc[2] == "Admin") {
+         if (acc[2] == "Admin") {
+                var nav0 = document.getElementById("0")
                 var nav1 = document.getElementById("1")
                 var nav2 = document.getElementById("2")
-                var nav3 = document.getElementById("3")
+             var nav3 = document.getElementById("3")
+             nav0.innerHTML = '<a href="/profilePage" class="nav-link" aria-current="page">' + acc[0] + '</a>'
                 nav1.innerHTML = '<a class="nav-link" aria-current="page" href="/taskAdmPage">TaskAdministration</a>'
                 nav2.innerHTML = '<a class="nav-link" aria-current="page" href="/adminMainPage">NewsAdministration</a>'
                 nav3.innerHTML = '<a class="nav-link" aria-current="page" href="/adminUsersPage">UsersAndFormsAdministration</a>'
             }
-            if (acc[2] == "Teacher") {
+         if (acc[2] == "Teacher") {
+             var nav0 = document.getElementById("0")
                 var nav1 = document.getElementById("1")
                 var nav2 = document.getElementById("2")
-
+                nav0.innerHTML = '<a href="/profilePage" class="nav-link" aria-current="page">' + acc[0] + '</a>'
                 nav1.innerHTML = '<a class="nav-link" aria-current="page" href="/taskAdmPage">TaskAdministration</a>'
                 nav2.innerHTML = '<a class="nav-link" aria-current="page" href="/adminMainPage">NewsAdministration</a>'
                 
